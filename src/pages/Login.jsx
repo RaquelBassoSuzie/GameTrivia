@@ -25,12 +25,13 @@ class Login extends React.Component {
       ];
       if (check.every((item) => item === true)) {
         this.setState({ isButtonDisabled: false });
+      } else {
+        this.setState({ isButtonDisabled: true });
       }
     });
   }
 
   catchClickPlay = async () => {
-    // const { state } = this;
     const token = await fetchTriviaQuestions();
     const { history } = this.props;
     localStorage.setItem('token', token.token);
