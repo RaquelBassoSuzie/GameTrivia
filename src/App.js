@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import './App.css';
-import Login from './pages/Login';
+import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import Login from './pages/Login';
+import './App.css';
 
 export default function App() {
   return (
     <Switch>
-      <Route path="/" component={Login} />
+      <Route path="/" component={ Login } />
     </Switch>
   );
 }
