@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import logo from '../trivia.png';
 
 class Login extends React.Component {
@@ -32,6 +33,11 @@ class Login extends React.Component {
     console.log(state);
   }
 
+  btnSettings = () => {
+    const { history } = this.props;
+    history.push('/settings');
+  }
+
   render() {
     const { name, email, isButtonDisabled } = this.state;
     return (
@@ -63,10 +69,22 @@ class Login extends React.Component {
         >
           Play
         </button>
-
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ this.btnSettings }
+        >
+          settings
+        </button>
       </section>
     );
   }
 }
+
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+}.isRequired;
 
 export default Login;
