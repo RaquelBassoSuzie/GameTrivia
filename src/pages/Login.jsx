@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import logo from '../trivia.png';
+import fetchTriviaQuestions from '../fetch';
 
 class Login extends React.Component {
   constructor() {
@@ -28,9 +29,12 @@ class Login extends React.Component {
     });
   }
 
-  catchClickPlay = () => {
-    const { state } = this;
-    console.log(state);
+  catchClickPlay = async () => {
+    // const { state } = this;
+    const token = await fetchTriviaQuestions();
+    const { history } = this.props;
+    localStorage.setItem('token', token.token);
+    history.push('/game');
   }
 
   btnSettings = () => {
