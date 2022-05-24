@@ -34,16 +34,33 @@ describe('Verifica o comportamento da aplicação ao realizar o Login', () => {
     expect(buttonPlay).toBeEnabled();
   });
 
-  it('avalia a requisição da api e o armazenamento no localStorage', () => {
-    renderWithRouterAndRedux(<App />, {}, '/');
+  it('avalia a requisição da api e o armazenamento no localStorage', async () => {
+    const { history } = renderWithRouterAndRedux(<App />, {}, '/');
 
     // Requisito 2
-    const buttonPlay = screen.getByTestId('btn-play');
+    const token = {
+      response_code: 0,
+      response_message: "Token Generated Successfully!",
+      token: "7dc183f87c5f2704465b0e14e2f1657c2afdb6b4336b760fcd5ba0ba2428223c",
+    };
 
+    global.fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue(token),
+    });
+
+    const buttonPlay = screen.getByTestId('btn-play');
+    userEvent.click(buttonPlay);
+    expect(global.fetch).toBeCalledTimes(1);
+
+    const { location: { pathname } } = history;
+    await waitFor(() => expect(pathname).toBe('/game'));
+
+    const localStorage = localSorage.getItem('token');
+    expect(localStorage).toBe(token.token);
   });
 
   it('avalia a navegação para a página Setting', () => {
-    const { debug, history } = renderWithRouterAndRedux(<App />, {}, '/');
+    const { history } = renderWithRouterAndRedux(<App />, {}, '/');
 
     // Requisito 3
     const buttonSetting = screen.getByTestId('btn-settings');
