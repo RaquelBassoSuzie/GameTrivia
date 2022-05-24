@@ -37,6 +37,11 @@ class Login extends React.Component {
     history.push('/game');
   }
 
+  btnSettings = () => {
+    const { history } = this.props;
+    history.push('/settings');
+  }
+
   render() {
     const { name, email, isButtonDisabled } = this.state;
     return (
@@ -68,14 +73,22 @@ class Login extends React.Component {
         >
           Play
         </button>
-
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ this.btnSettings }
+        >
+          settings
+        </button>
       </section>
     );
   }
 }
 
 Login.propTypes = {
-  history: PropTypes.func.isRequired,
-};
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+}.isRequired;
 
 export default Login;
