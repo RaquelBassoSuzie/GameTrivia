@@ -7,38 +7,55 @@ import App from '../App'
 import userEvent from '@testing-library/user-event';
 
 describe('Verifica o comportamento da aplicação ao realizar o Login', () => {
-  it('avalia a renderização do componente App com store próprio', () => {
-    const { debug } = renderWithRouterAndRedux(<App />, {}, '/');
+  it('avalia a renderização do componente Login', () => {
+    renderWithRouterAndRedux(<App />, {}, '/');
 
-
+    // Requisito 1
     const img = screen.getByRole('img', { name: /logo/i });
     expect(img).toBeInTheDocument();
 
     const nameInput = screen.getByTestId('input-player-name');
     const emailInput = screen.getByTestId('input-gravatar-email');
-    const button = screen.getByTestId('btn-play');
+    const buttonPlay = screen.getByTestId('btn-play');
     expect(nameInput).toBeInTheDocument();
     expect(emailInput).toBeInTheDocument();
-    expect(button).toBeInTheDocument();
-    expect(button).toBeDisabled();
+    expect(buttonPlay).toBeInTheDocument();
+    expect(buttonPlay).toBeDisabled();
 
     userEvent.type(nameInput, 'Meu Nome');
-    expect(button).toBeDisabled();
-
-    userEvent.type(nameInput, '');
-    userEvent.type(emailInput, 'meu-email@teste.com');
-    expect(button).toBeDisabled();
+    expect(buttonPlay).toBeDisabled();
 
     userEvent.type(nameInput, 'Meu Nome');
     userEvent.type(emailInput, 'meu-email-errado-teste.com');
-    expect(button).toBeDisabled();
+    expect(buttonPlay).toBeDisabled();
 
     userEvent.type(nameInput, 'Meu Nome');
     userEvent.type(emailInput, 'meu-email@teste.com');
-    expect(button).toBeEnabled();
-
-    
+    expect(buttonPlay).toBeEnabled();
   });
-  
+
+  it('avalia a requisição da api e o armazenamento no localStorage', () => {
+    renderWithRouterAndRedux(<App />, {}, '/');
+
+    // Requisito 2
+    const buttonPlay = screen.getByTestId('btn-play');
+
+  });
+
+  it('avalia a navegação para a página Setting', () => {
+    const { debug, history } = renderWithRouterAndRedux(<App />, {}, '/');
+
+    // Requisito 3
+    const buttonSetting = screen.getByTestId('btn-settings');
+    userEvent.click(buttonSetting);
+
+    const settingTitle = screen.getByTestId('settings-title');
+    expect(settingTitle).toBeInTheDocument();
+
+    const { location: { pathname } } = history;
+    expect(pathname).toBe('/settings');
+
+  });
+
   
 });
