@@ -36,7 +36,6 @@ class Login extends React.Component {
   btnSettings = () => {
     const { history } = this.props;
     history.push('/settings');
-    console.log(history.location.pathname);
   }
 
   render() {
