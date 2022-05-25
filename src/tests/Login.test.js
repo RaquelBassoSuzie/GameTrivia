@@ -60,6 +60,8 @@ describe('Verifica o comportamento da aplicação ao realizar o Login', () => {
 
     const localStorageItem = localStorage.getItem('token');
     expect(localStorageItem).toBe(token.token);
+
+    
   });
 
   it('avalia a navegação para a página Setting', () => {
