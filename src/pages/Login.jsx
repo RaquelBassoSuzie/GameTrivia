@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import logo from '../trivia.png';
-import fetchTriviaQuestions from '../fetch';
+import fetchTriviaQuestions from '../services/fetchToken';
 
 class Login extends React.Component {
   constructor() {
@@ -25,15 +25,16 @@ class Login extends React.Component {
       ];
       if (check.every((item) => item === true)) {
         this.setState({ isButtonDisabled: false });
+      } else {
+        this.setState({ isButtonDisabled: true });
       }
     });
   }
 
   catchClickPlay = async () => {
-    // const { state } = this;
-    const token = await fetchTriviaQuestions();
+    const { token } = await fetchTriviaQuestions();
+    localStorage.setItem('token', token);
     const { history } = this.props;
-    localStorage.setItem('token', token.token);
     history.push('/game');
   }
 
