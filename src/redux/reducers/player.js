@@ -1,6 +1,6 @@
 const INICIAL_STATE = {};
 
-const login = (state = INICIAL_STATE, action) => {
+const player = (state = INICIAL_STATE, action) => {
   switch (action.type) {
   case '':
     return state;
@@ -9,4 +9,4 @@ const login = (state = INICIAL_STATE, action) => {
   }
 };
 
-export default login;
+export default player;

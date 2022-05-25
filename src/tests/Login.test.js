@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import App from '../App'
 import userEvent from '@testing-library/user-event';
@@ -8,7 +8,6 @@ describe('Verifica o comportamento da aplicação ao realizar o Login', () => {
   it('avalia a renderização do componente Login', () => {
     renderWithRouterAndRedux(<App />, {}, '/');
 
-    // Requisito 1
     const img = screen.getByRole('img', { name: /logo/i });
     expect(img).toBeInTheDocument();
 
@@ -35,7 +34,6 @@ describe('Verifica o comportamento da aplicação ao realizar o Login', () => {
   it('avalia a requisição da api e o armazenamento no localStorage', async () => {
     const { history } = renderWithRouterAndRedux(<App />, {}, '/');
 
-    // Requisito 2
     const token = {
       response_code: 0,
       response_message: "Token Generated Successfully!",
@@ -43,24 +41,30 @@ describe('Verifica o comportamento da aplicação ao realizar o Login', () => {
     };
 
     global.fetch = jest.fn().mockResolvedValue({
-      json: jest.fn().mockResolvedValue(token),
+      json: jest.fn().mockResolvedValue(token)
     });
 
+    const nameInput = screen.getByTestId('input-player-name');
+    const emailInput = screen.getByTestId('input-gravatar-email');
     const buttonPlay = screen.getByTestId('btn-play');
+    userEvent.type(nameInput, 'Meu Nome');
+    userEvent.type(emailInput, 'meu-email@teste.com');
     userEvent.click(buttonPlay);
-    // expect(global.fetch).toBeCalledTimes(1);
+
+    expect(global.fetch).toBeCalledTimes(1);
+
+    await waitForElementToBeRemoved(() => screen.getByRole('img', { name: /logo/i }));
 
     const { location: { pathname } } = history;
-    await waitFor(() => expect(pathname).toBe('/game'));
+    expect(pathname).toBe('/game');
 
-    const localStorage = localSorage.getItem('token');
-    expect(localStorage).toBe(token.token);
+    const localStorageItem = localStorage.getItem('token');
+    expect(localStorageItem).toBe(token.token);
   });
 
   it('avalia a navegação para a página Setting', () => {
     const { history } = renderWithRouterAndRedux(<App />, {}, '/');
 
-    // Requisito 3
     const buttonSetting = screen.getByTestId('btn-settings');
     userEvent.click(buttonSetting);
 

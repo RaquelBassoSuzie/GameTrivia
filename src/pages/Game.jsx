@@ -3,7 +3,11 @@ import React from 'react';
 class Game extends React.Component {
   render() {
     return (
-      <p>Game</p>
+      <section>
+        <p data-testid="header-player-name">
+          Name que deverá sair ao adicionar o header
+        </p>
+      </section>
     );
   }
 }
