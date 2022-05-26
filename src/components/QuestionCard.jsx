@@ -1,8 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { updateScoreAndAssertions } from '../redux/actions';
 
 class QuestionCard extends React.Component {
+  handleClickRight = () => {
+    const { indexQuestions, questions, countTime, updateScore, afterAnswer } = this.props;
+    const { difficulty } = questions[indexQuestions];
+    afterAnswer();
+    const difficultyScore = { hard: 3, medium: 2, easy: 1 };
+    const TEN = 10;
+    const score = TEN + (countTime * difficultyScore[difficulty]);
+    updateScore(score);
+  };
+
+  handleClickWrong = () => {
+    const { afterAnswer } = this.props;
+    afterAnswer();
+  };
+
   render() {
     const { indexQuestions,
       questions: atualQuestion,
@@ -24,6 +40,7 @@ class QuestionCard extends React.Component {
                   key="correct-answer"
                   data-testid="correct-answer"
                   disabled={ isDisabled }
+                  onClick={ this.handleClickRight }
                 >
                   { answer }
                 </button>
@@ -35,13 +52,13 @@ class QuestionCard extends React.Component {
                 key={ `wrong-answer-${index}` }
                 data-testid={ `wrong-answer-${index}` }
                 disabled={ isDisabled }
+                onClick={ this.handleClickWrong }
               >
                 { answer }
               </button>
             );
           })}
         </div>
-
       </section>
     );
   }
@@ -49,10 +66,18 @@ class QuestionCard extends React.Component {
 
 QuestionCard.propTypes = {
   question: PropTypes.objectOf(PropTypes.string),
+  updateScore: PropTypes.func,
+  afterAnswer: PropTypes.func,
+  indexQuestions: PropTypes.number,
+  countTime: PropTypes.number,
 }.isRequired;
 
 const mapStateToProps = (state) => ({
   questions: state.game.questions,
 });
 
-export default connect(mapStateToProps)(QuestionCard);
+const mapDispatchToProps = (dispatch) => ({
+  updateScore: (payload) => dispatch(updateScoreAndAssertions(payload)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(QuestionCard);

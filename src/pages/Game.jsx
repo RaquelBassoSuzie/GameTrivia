@@ -70,6 +70,10 @@ class Game extends React.Component {
     });
   }
 
+  afterAnswer = () => {
+    this.setState({ isDisabled: true });
+  }
+
   render() {
     const { indexQuestions, loading, countTime, isDisabled } = this.state;
 
@@ -83,6 +87,7 @@ class Game extends React.Component {
             indexQuestions={ indexQuestions }
             countTime={ countTime }
             isDisabled={ isDisabled }
+            afterAnswer={ this.afterAnswer }
           />
         )}
       </section>
