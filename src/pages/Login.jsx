@@ -21,6 +21,8 @@ class Login extends React.Component {
       [id]: value,
     }, () => {
       const { name, email } = this.state;
+      // Resolução da verificação do email proveniente do projeto Tryunfo do Guilherme Fernandes
+      // sourse: https://github.com/tryber/sd-020-b-project-trybetunes/pull/33/files
       const check = [
         (!!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)),
         name.length > 0,
