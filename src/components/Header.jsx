@@ -7,7 +7,6 @@ class Header extends React.Component {
   render() {
     const { name, gravatarEmail, score } = this.props;
     const url = `https://www.gravatar.com/avatar/${md5(gravatarEmail)}`;
-    console.log(url);
     return (
       <header>
         <img
