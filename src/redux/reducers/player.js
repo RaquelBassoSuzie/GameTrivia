@@ -12,6 +12,11 @@ const player = (state = INICIAL_STATE, action) => {
       name: action.payload.name,
       gravatarEmail: action.payload.email,
     };
+  case 'UPDATE_SCORE':
+    return { ...state,
+      assertions: state.assertions + 1,
+      score: state.score + action.payload,
+    };
   default:
     return state;
   }
