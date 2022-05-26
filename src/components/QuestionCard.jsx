@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 class QuestionCard extends React.Component {
   render() {
-    const { question:
-      { question,
-        correct_answer: correctAnswer,
-        incorrect_answers: incorrectAnswers,
-        category,
-      } } = this.props;
+    const { indexQuestions, questions: atualQuestion } = this.props;
+    const { question,
+      correct_answer: correctAnswer,
+      incorrect_answers: incorrectAnswers,
+      category,
+    } = atualQuestion[indexQuestions];
     const incorrectAnswersMap = incorrectAnswers
       .map((answer, index) => ({ type: false, answer, index }));
     const answers = [
@@ -59,4 +60,8 @@ QuestionCard.propTypes = {
   question: PropTypes.objectOf(PropTypes.string),
 }.isRequired;
 
-export default QuestionCard;
+const mapStateToProps = (state) => ({
+  questions: state.game.questions,
+});
+
+export default connect(mapStateToProps)(QuestionCard);

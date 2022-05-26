@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import Header from '../components/Header';
-import Login from './Login';
 import QuestionCard from '../components/QuestionCard';
+import { saveQuestions } from '../redux/actions';
 
 class Game extends React.Component {
   constructor() {
     super();
     this.state = {
-      tokenValid: true,
-      questions: [],
       loading: true,
       indexQuestions: 0,
     };
@@ -28,26 +27,26 @@ class Game extends React.Component {
       const errorCode = 3;
       if (data.response_code === errorCode) {
         const { history } = this.props;
+        localStorage.removeItem('token');
         history.push('/');
       } else {
-        this.setState({ questions: data.results, loading: false });
+        const { saveQuestionsStore } = this.props;
+        saveQuestionsStore(data.results);
+        this.setState({ loading: false });
       }
     });
   }
 
   render() {
-    const { tokenValid, questions, indexQuestions, loading } = this.state;
-    if (!tokenValid) {
-      localStorage.setItem('token', '');
-      return <Login />;
-    }
+    const { indexQuestions, loading } = this.state;
+
     return (
       <section>
         <Header />
         {loading ? (
           <h4>Loading...</h4>
         ) : (
-          <QuestionCard question={ questions[indexQuestions] } />
+          <QuestionCard indexQuestions={ indexQuestions } />
         )}
       </section>
     );
@@ -60,4 +59,8 @@ Game.propTypes = {
   }),
 }.isRequired;
 
-export default Game;
+const mapDispatchToProps = (dispatch) => ({
+  saveQuestionsStore: (payload) => dispatch(saveQuestions(payload)),
+});
+
+export default connect(null, mapDispatchToProps)(Game);
