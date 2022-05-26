@@ -32,7 +32,7 @@ describe('Verifica o comportamento da aplicação ao realizar o Login', () => {
   });
 
   it('avalia a requisição da api e o armazenamento no localStorage', async () => {
-    const { history } = renderWithRouterAndRedux(<App />, {});
+    const { history, debug } = renderWithRouterAndRedux(<App />, {});
 
     const token = {
       response_code: 0,
@@ -44,20 +44,20 @@ describe('Verifica o comportamento da aplicação ao realizar o Login', () => {
       response_code: 0,
       results:[
         {
-          category: "Entertainment: Music",
-          type: "multiple",
-          difficulty: "medium",
-          question: "Which French duo had UK hits in 1998 with the songs &#039;Sexy Boy&#039;, &#039;Kelly Watch The Stars&#039; &amp; &#039;All I Need&#039;?",
-          correct_answer: "Air",
-          incorrect_answers: ["Fire", "Earth", "Water"]
-        },
-        {
           category: "Animals",
           type: "multiple",
           difficulty: "hard",
           question: "What is the scientific name of the Budgerigar?",
           correct_answer: "Melopsittacus undulatus",
           incorrect_answers: ["Nymphicus hollandicus", "Pyrrhura molinae", "Ara macao"]
+        },
+        {
+          category: "Entertainment: Music",
+          type: "multiple",
+          difficulty: "medium",
+          question: "Which French duo had UK hits in 1998 with the songs &#039;Sexy Boy&#039;, &#039;Kelly Watch The Stars&#039; &amp; &#039;All I Need&#039;?",
+          correct_answer: "Air",
+          incorrect_answers: ["Fire", "Earth", "Water"]
         },
         {
           category: "Entertainment: Video Games",
@@ -112,6 +112,20 @@ describe('Verifica o comportamento da aplicação ao realizar o Login', () => {
 
     const localStorageItem = localStorage.getItem('token');
     expect(localStorageItem).toBe(token.token);
+
+    const { 
+      category, 
+      question, 
+      correct_answer: correctAnswer,
+      incorrect_answers: incorrectAnswers,
+    } = questions.results[0];
+    const questionsInfo = [category, question, correctAnswer, ...incorrectAnswers];
+
+    questionsInfo.forEach((info) => {
+      const infoElement = screen.getByText(info);
+      expect(infoElement).toBeInTheDocument();
+    })
+
   });
 
   it('avalia a navegação para a página Setting', () => {
