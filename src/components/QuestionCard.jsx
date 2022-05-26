@@ -4,26 +4,15 @@ import { connect } from 'react-redux';
 
 class QuestionCard extends React.Component {
   render() {
-    const { indexQuestions, questions: atualQuestion } = this.props;
-    const { question,
-      correct_answer: correctAnswer,
-      incorrect_answers: incorrectAnswers,
-      category,
-    } = atualQuestion[indexQuestions];
-    const incorrectAnswersMap = incorrectAnswers
-      .map((answer, index) => ({ type: false, answer, index }));
-    const answers = [
-      { type: true, answer: correctAnswer, index: null },
-      ...incorrectAnswersMap,
-    ];
-    // Embaralhamentos dos elementos de um array proveniente da mentoria técnica com o instrutor Moisés Santana
-    // link da referência utilizada: https://flaviocopes.com/how-to-shuffle-array-javascript/
-    // Como o Math.random gera um número aleatório entre 0 e 0.99, reduzir 0.5 faz ele ser maior ou menor aleatoriamente resultando com comportamento do sort de ordenar em relação ao número retornado (ants ou depois)
-    const HALF_NUMBER = 0.5;
-    answers.sort(() => Math.random() - HALF_NUMBER);
+    const { indexQuestions,
+      questions: atualQuestion,
+      countTime, isDisabled,
+    } = this.props;
+    const { question, category, answers } = atualQuestion[indexQuestions];
 
     return (
       <section>
+        <p>{countTime}</p>
         <h3 data-testid="question-text">{ question }</h3>
         <p data-testid="question-category">{ category }</p>
         <div data-testid="answer-options">
@@ -34,6 +23,7 @@ class QuestionCard extends React.Component {
                   type="button"
                   key="correct-answer"
                   data-testid="correct-answer"
+                  disabled={ isDisabled }
                 >
                   { answer }
                 </button>
@@ -44,6 +34,7 @@ class QuestionCard extends React.Component {
                 type="button"
                 key={ `wrong-answer-${index}` }
                 data-testid={ `wrong-answer-${index}` }
+                disabled={ isDisabled }
               >
                 { answer }
               </button>

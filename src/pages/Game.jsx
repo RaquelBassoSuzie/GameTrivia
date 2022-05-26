@@ -11,12 +11,43 @@ class Game extends React.Component {
     this.state = {
       loading: true,
       indexQuestions: 0,
+      countTime: 30,
+      isDisabled: false,
     };
   }
 
   async componentDidMount() {
+    const ONE_SECOND = 1000;
     this.fetchQuestions();
+    // Aplicação do setInterval baseado na aula 12.1 do Gabriel Espindola
+    // Código presente no link: https://github.com/tryber/sd-020-b-live-lectures/blob/lecture/12.1/trybem-estar/src/components/Timer.js
+    this.interval = setInterval(() => {
+      this.setState((prev) => ({
+        countTime: prev.countTime - 1,
+      }), () => {
+        const { countTime } = this.state;
+        if (countTime === 0) {
+          this.setState({ isDisabled: true }, () => clearInterval(this.interval));
+        }
+      });
+    }, ONE_SECOND);
   }
+
+  prepareOptionsForQuestion = (datas) => datas.map((data) => {
+    const { correct_answer: correctAnswer, incorrect_answers: incorrectAnswers } = data;
+    const incorrectAnswersMap = incorrectAnswers
+      .map((answer, index) => ({ type: false, answer, index }));
+    const answers = [
+      { type: true, answer: correctAnswer, index: null },
+      ...incorrectAnswersMap,
+    ];
+      // Embaralhamentos dos elementos de um array proveniente da mentoria técnica com o instrutor Moisés Santana
+      // link da referência utilizada: https://flaviocopes.com/how-to-shuffle-array-javascript/
+      // Como o Math.random gera um número aleatório entre 0 e 0.99, reduzir 0.5 faz ele ser maior ou menor aleatoriamente resultando com comportamento do sort de ordenar em relação ao número retornado (ants ou depois)
+    const HALF_NUMBER = 0.5;
+    answers.sort(() => Math.random() - HALF_NUMBER);
+    return { ...data, answers };
+  })
 
   fetchQuestions = async () => {
     this.setState({ loading: true }, async () => {
@@ -31,14 +62,16 @@ class Game extends React.Component {
         history.push('/');
       } else {
         const { saveQuestionsStore } = this.props;
-        saveQuestionsStore(data.results);
+        const dataPrepare = this.prepareOptionsForQuestion(data.results);
+        console.log(dataPrepare);
+        saveQuestionsStore(dataPrepare);
         this.setState({ loading: false });
       }
     });
   }
 
   render() {
-    const { indexQuestions, loading } = this.state;
+    const { indexQuestions, loading, countTime, isDisabled } = this.state;
 
     return (
       <section>
@@ -46,7 +79,11 @@ class Game extends React.Component {
         {loading ? (
           <h4>Loading...</h4>
         ) : (
-          <QuestionCard indexQuestions={ indexQuestions } />
+          <QuestionCard
+            indexQuestions={ indexQuestions }
+            countTime={ countTime }
+            isDisabled={ isDisabled }
+          />
         )}
       </section>
     );
