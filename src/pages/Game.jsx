@@ -13,6 +13,8 @@ class Game extends React.Component {
       indexQuestions: 0,
       countTime: 30,
       isDisabled: false,
+      showNextBtn: false,
+      style: false,
     };
   }
 
@@ -71,11 +73,32 @@ class Game extends React.Component {
   }
 
   afterAnswer = () => {
-    this.setState({ isDisabled: true });
+    this.setState({
+      isDisabled: true,
+      showNextBtn: true,
+      style: true,
+    });
+  }
+
+  nextQuestion = () => {
+    const { indexQuestions } = this.state;
+    const maxQuestions = 4;
+    this.setState((prevState) => ({
+      isDisabled: false,
+      showNextBtn: false,
+      countTime: 30,
+      style: false,
+      indexQuestions: prevState.indexQuestions + 1,
+    }));
+    if (indexQuestions === maxQuestions) {
+      const { history } = this.props;
+      history.push('/feedback');
+    }
   }
 
   render() {
-    const { indexQuestions, loading, countTime, isDisabled } = this.state;
+    const { indexQuestions,
+      loading, countTime, isDisabled, showNextBtn, style } = this.state;
 
     return (
       <section>
@@ -88,6 +111,9 @@ class Game extends React.Component {
             countTime={ countTime }
             isDisabled={ isDisabled }
             afterAnswer={ this.afterAnswer }
+            nextQuestion={ this.nextQuestion }
+            showNextBtn={ showNextBtn }
+            style={ style }
           />
         )}
       </section>

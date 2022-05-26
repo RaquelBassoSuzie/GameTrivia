@@ -23,9 +23,11 @@ class QuestionCard extends React.Component {
     const { indexQuestions,
       questions: atualQuestion,
       countTime, isDisabled,
+      nextQuestion,
+      showNextBtn,
+      style,
     } = this.props;
     const { question, category, answers } = atualQuestion[indexQuestions];
-
     return (
       <section>
         <p>{countTime}</p>
@@ -39,6 +41,9 @@ class QuestionCard extends React.Component {
                   type="button"
                   key="correct-answer"
                   data-testid="correct-answer"
+                  style={ style ? (
+                    { border: '3px solid rgb(6, 240, 15)' })
+                    : { color: 'black' } }
                   disabled={ isDisabled }
                   onClick={ this.handleClickRight }
                 >
@@ -51,6 +56,7 @@ class QuestionCard extends React.Component {
                 type="button"
                 key={ `wrong-answer-${index}` }
                 data-testid={ `wrong-answer-${index}` }
+                style={ style ? { border: '3px solid red' } : { color: 'black' } }
                 disabled={ isDisabled }
                 onClick={ this.handleClickWrong }
               >
@@ -59,6 +65,16 @@ class QuestionCard extends React.Component {
             );
           })}
         </div>
+        { showNextBtn
+          ? (
+            <button
+              data-testid="btn-next"
+              id="btn-next"
+              type="button"
+              onClick={ nextQuestion }
+            >
+              Next
+            </button>) : ''}
       </section>
     );
   }
