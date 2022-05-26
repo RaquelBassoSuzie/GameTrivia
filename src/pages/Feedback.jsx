@@ -11,16 +11,14 @@ class Feedback extends React.Component {
 
   render() {
     const { score, assertions } = this.props;
-    let message = 'Could be better...';
     const THREE = 3;
-    if (assertions >= THREE) {
-      message = 'Well Done!';
-    }
     return (
       <header>
         <Header />
         <section>
-          <p data-testid="feedback-text">{ message }</p>
+          <p data-testid="feedback-text">
+            { assertions >= THREE ? 'Well Done!' : 'Could be better...' }
+          </p>
           <p data-testid="feedback-total-score">{ score }</p>
           <p data-testid="feedback-total-question">{ Number(assertions) }</p>
           <button
@@ -29,7 +27,6 @@ class Feedback extends React.Component {
             data-testid="btn-play-again"
           >
             Play Again
-
           </button>
         </section>
       </header>
@@ -38,12 +35,12 @@ class Feedback extends React.Component {
 }
 
 Feedback.propTypes = {
-  score: PropTypes.number,
-  assertions: PropTypes.number,
+  score: PropTypes.number.isRequired,
+  assertions: PropTypes.number.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
-  }),
-}.isrequired;
+  }).isRequired,
+};
 
 const mapStateToProps = (state) => ({
   score: state.player.score,

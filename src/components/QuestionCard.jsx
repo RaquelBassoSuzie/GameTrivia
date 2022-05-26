@@ -22,7 +22,8 @@ class QuestionCard extends React.Component {
   render() {
     const { indexQuestions,
       questions: atualQuestion,
-      countTime, isDisabled,
+      countTime,
+      isDisabled,
       nextQuestion,
       showNextBtn,
       style,
@@ -81,12 +82,16 @@ class QuestionCard extends React.Component {
 }
 
 QuestionCard.propTypes = {
-  question: PropTypes.objectOf(PropTypes.string),
-  updateScore: PropTypes.func,
-  afterAnswer: PropTypes.func,
-  indexQuestions: PropTypes.number,
-  countTime: PropTypes.number,
-}.isRequired;
+  indexQuestions: PropTypes.number.isRequired,
+  questions: PropTypes.objectOf(PropTypes.string).isRequired,
+  countTime: PropTypes.number.isRequired,
+  updateScore: PropTypes.func.isRequired,
+  afterAnswer: PropTypes.func.isRequired,
+  nextQuestion: PropTypes.func.isRequired,
+  showNextBtn: PropTypes.func.isRequired,
+  isDisabled: PropTypes.bool.isRequired,
+  style: PropTypes.bool.isRequired,
+};
 
 const mapStateToProps = (state) => ({
   questions: state.game.questions,

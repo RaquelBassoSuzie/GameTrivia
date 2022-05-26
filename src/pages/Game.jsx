@@ -123,8 +123,9 @@ class Game extends React.Component {
 Game.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
-  }),
-}.isRequired;
+  }).isRequired,
+  saveQuestionsStore: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = (dispatch) => ({
   saveQuestionsStore: (payload) => dispatch(saveQuestions(payload)),

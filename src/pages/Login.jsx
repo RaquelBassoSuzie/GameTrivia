@@ -97,14 +97,15 @@ class Login extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  handleChangePlayer: (payload) => dispatch(changePlayer(payload)),
-});
-
 Login.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
-  }),
-}.isRequired;
+  }).isRequired,
+  handleChangePlayer: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  handleChangePlayer: (payload) => dispatch(changePlayer(payload)),
+});
 
 export default connect(null, mapDispatchToProps)(Login);

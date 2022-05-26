@@ -31,6 +31,12 @@ class Header extends React.Component {
   }
 }
 
+Header.propTypes = {
+  name: PropTypes.string.isRequired,
+  gravatarEmail: PropTypes.string.isRequired,
+  score: PropTypes.number.isRequired,
+};
+
 const mapStateToProps = (state) => ({
   gravatarEmail: state.player.gravatarEmail,
   name: state.player.name,
@@ -38,8 +44,3 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps)(Header);
-Header.propTypes = {
-  name: PropTypes.string.isRequired,
-  gravatarEmail: PropTypes.string.isRequired,
-  score: PropTypes.number.isRequired,
-};
