@@ -4,23 +4,6 @@ import { connect } from 'react-redux';
 import Header from '../components/Header';
 
 class Feedback extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      message: '',
-    };
-  }
-
-  componentDidMount() {
-    const { assertions } = this.props;
-    const THREE = 3;
-    if (assertions < THREE) {
-      this.setState({ message: 'Could be better...' });
-    } else {
-      this.setState({ message: 'Well Done!' });
-    }
-  }
-
   backToLogin = () => {
     const { history } = this.props;
     history.push('/');
@@ -28,19 +11,27 @@ class Feedback extends React.Component {
 
   render() {
     const { score, assertions } = this.props;
-    const { message } = this.state;
+    let message = 'Could be better...';
+    const THREE = 3;
+    if (assertions >= THREE) {
+      message = 'Well Done!';
+    }
     return (
       <header>
         <Header />
         <section>
-          {/* <img data-testid="header-profile-picture" alt="REQUISITO 12 - ALTERAR" src="" />
-          <h3 data-testid="header-player-name">Algum nome vem pra cá - REQUISITO 12</h3>
-          <h3 data-testid="header-score">Algum placar - REQUISITO 12</h3> */}
           <p data-testid="feedback-text">{ message }</p>
-          <p data-testid="feedback-total-score">{ Number(score) }</p>
-          <span datat-testid="feedback-total-question">{ Number(assertions) }</span>
+          <p data-testid="feedback-total-score">{ score }</p>
+          <p data-testid="feedback-total-question">{ Number(assertions) }</p>
+          <button
+            type="button"
+            onClick={ this.backToLogin }
+            data-testid="btn-play-again"
+          >
+            Play Again
+
+          </button>
         </section>
-        <button type="button" onClick={ this.backToLogin }>Play Again</button>
       </header>
     );
   }
@@ -56,7 +47,7 @@ Feedback.propTypes = {
 
 const mapStateToProps = (state) => ({
   score: state.player.score,
-  assertions: state.player.score,
+  assertions: state.player.assertions,
 });
 
 export default connect(mapStateToProps)(Feedback);
