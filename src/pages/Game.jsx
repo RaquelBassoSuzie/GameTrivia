@@ -65,7 +65,6 @@ class Game extends React.Component {
       } else {
         const { saveQuestionsStore } = this.props;
         const dataPrepare = this.prepareOptionsForQuestion(data.results);
-        console.log(dataPrepare);
         saveQuestionsStore(dataPrepare);
         this.setState({ loading: false });
       }
