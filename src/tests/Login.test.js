@@ -32,7 +32,7 @@ describe('Verifica o comportamento da aplicação ao realizar o Login', () => {
   });
 
   it('avalia a requisição da api e o armazenamento no localStorage', async () => {
-    const { history, debug } = renderWithRouterAndRedux(<App />, {});
+    const { history} = renderWithRouterAndRedux(<App />, {});
 
     const token = {
       response_code: 0,
@@ -124,7 +124,7 @@ describe('Verifica o comportamento da aplicação ao realizar o Login', () => {
     questionsInfo.forEach((info) => {
       const infoElement = screen.getByText(info);
       expect(infoElement).toBeInTheDocument();
-    })
+    });
 
   });
 
