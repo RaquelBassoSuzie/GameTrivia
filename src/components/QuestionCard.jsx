@@ -83,12 +83,12 @@ class QuestionCard extends React.Component {
 
 QuestionCard.propTypes = {
   indexQuestions: PropTypes.number.isRequired,
-  questions: PropTypes.objectOf(PropTypes.string).isRequired,
+  questions: PropTypes.arrayOf(PropTypes.object).isRequired,
   countTime: PropTypes.number.isRequired,
   updateScore: PropTypes.func.isRequired,
   afterAnswer: PropTypes.func.isRequired,
   nextQuestion: PropTypes.func.isRequired,
-  showNextBtn: PropTypes.func.isRequired,
+  showNextBtn: PropTypes.bool.isRequired,
   isDisabled: PropTypes.bool.isRequired,
   style: PropTypes.bool.isRequired,
 };
