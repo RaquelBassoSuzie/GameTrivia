@@ -15,6 +15,8 @@ class Game extends React.Component {
       isDisabled: false,
       showNextBtn: false,
       style: false,
+      error: false,
+      displayQuestions: false,
     };
   }
 
@@ -51,22 +53,48 @@ class Game extends React.Component {
     return { ...data, answers };
   })
 
+  prepareURLWithFilters = () => {
+    const { settings } = this.props;
+    const emptyString = '';
+    const categoryString = `&category=${settings.category}`;
+    const difficultyString = `&difficulty=${settings.difficulty}`;
+    const typeString = `&type=${settings.type}`;
+    const checkCategory = settings.category !== '' ? categoryString : emptyString;
+    const checkDifficulty = settings.difficulty !== '' ? difficultyString : emptyString;
+    const checkType = settings.type !== '' ? typeString : emptyString;
+    const URL = 'https://opentdb.com/api.php?amount=5';
+    const changeURL = `${URL}${checkCategory}${checkDifficulty}${checkType}`;
+    return changeURL;
+  }
+
   fetchQuestions = async () => {
     this.setState({ loading: true }, async () => {
+      const { settings } = this.props;
       const token = localStorage.getItem('token');
-      const URL = `https://opentdb.com/api.php?amount=5&token=${token}`;
+      const settingsChange = [
+        settings.category !== '',
+        settings.difficulty !== '',
+        settings.type !== '',
+      ];
+      let URL = `https://opentdb.com/api.php?amount=5&token=${token}`;
+      if (settingsChange.some((change) => change === true)) {
+        URL = this.prepareURLWithFilters();
+      }
       const response = await fetch(URL);
       const data = await response.json();
+      console.log(data);
       const errorCode = 3;
       if (data.response_code === errorCode) {
         const { history } = this.props;
         localStorage.removeItem('token');
         history.push('/');
+      } else if (data.response_code === 1 || data.response_code === 2) {
+        this.setState({ error: true, loading: false, displayQuestions: false });
       } else {
         const { saveQuestionsStore } = this.props;
         const dataPrepare = this.prepareOptionsForQuestion(data.results);
         saveQuestionsStore(dataPrepare);
-        this.setState({ loading: false });
+        this.setState({ loading: false, displayQuestions: true });
       }
     });
   }
@@ -95,26 +123,47 @@ class Game extends React.Component {
     }
   }
 
+  redirectButtonError = () => {
+    const { history } = this.props;
+    history.push('/settings');
+  }
+
   render() {
-    const { indexQuestions,
-      loading, countTime, isDisabled, showNextBtn, style } = this.state;
+    const {
+      indexQuestions,
+      loading,
+      countTime,
+      isDisabled,
+      showNextBtn,
+      style,
+      error,
+      displayQuestions,
+    } = this.state;
 
     return (
       <section>
         <Header />
-        {loading ? (
-          <h4>Loading...</h4>
-        ) : (
-          <QuestionCard
-            indexQuestions={ indexQuestions }
-            countTime={ countTime }
-            isDisabled={ isDisabled }
-            afterAnswer={ this.afterAnswer }
-            nextQuestion={ this.nextQuestion }
-            showNextBtn={ showNextBtn }
-            style={ style }
-          />
+        { error && (
+          <div>
+            <h4>Error: Invalid Parameter</h4>
+            <button
+              type="button"
+              onClick={ this.redirectButtonError }
+            >
+              Change Settings
+            </button>
+          </div>
         )}
+        {loading && <h4>Loading...</h4>}
+        {displayQuestions && <QuestionCard
+          indexQuestions={ indexQuestions }
+          countTime={ countTime }
+          isDisabled={ isDisabled }
+          afterAnswer={ this.afterAnswer }
+          nextQuestion={ this.nextQuestion }
+          showNextBtn={ showNextBtn }
+          style={ style }
+        />}
       </section>
     );
   }
@@ -125,10 +174,15 @@ Game.propTypes = {
     push: PropTypes.func,
   }).isRequired,
   saveQuestionsStore: PropTypes.func.isRequired,
+  settings: PropTypes.objectOf(PropTypes.string).isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  settings: state.game.settings,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   saveQuestionsStore: (payload) => dispatch(saveQuestions(payload)),
 });
 
-export default connect(null, mapDispatchToProps)(Game);
+export default connect(mapStateToProps, mapDispatchToProps)(Game);

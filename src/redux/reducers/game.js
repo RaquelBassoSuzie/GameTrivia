@@ -1,6 +1,10 @@
 const INICIAL_STATE = {
   questions: {},
-  settings: {},
+  settings: {
+    category: '',
+    difficulty: '',
+    type: '',
+  },
 };
 
 const game = (state = INICIAL_STATE, action) => {
@@ -10,7 +14,6 @@ const game = (state = INICIAL_STATE, action) => {
       questions: action.payload,
     };
   case 'UPDATE_SETTINGS':
-    console.log(action.payload);
     return { ...state,
       settings: { ...action.payload },
     };

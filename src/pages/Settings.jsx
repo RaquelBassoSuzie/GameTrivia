@@ -17,6 +17,14 @@ class Settings extends React.Component {
 
   async componentDidMount() {
     this.fetchCategories();
+    this.updateSettingFromRedux();
+  }
+
+  updateSettingFromRedux = () => {
+    const { settings } = this.props;
+    this.setState({
+      ...settings,
+    });
   }
 
   fetchCategories = () => {
@@ -38,10 +46,19 @@ class Settings extends React.Component {
     });
   }
 
+  resetSettings = () => {
+    this.setState({
+      category: '',
+      difficulty: '',
+      type: '',
+    });
+  }
+
   handleSettingsChange = () => {
-    const { updateSettingsFunc } = this.props;
+    const { updateSettingsFunc, history } = this.props;
     const { category, difficulty, type } = this.state;
     updateSettingsFunc({ category, difficulty, type });
+    history.push('/');
   }
 
   render() {
@@ -100,6 +117,14 @@ class Settings extends React.Component {
             <button
               type="button"
               data-testid="btn-settings-change"
+              onClick={ this.resetSettings }
+            >
+              Reset Settings
+            </button>
+
+            <button
+              type="button"
+              data-testid="btn-settings-change"
               onClick={ this.handleSettingsChange }
             >
               Apply
@@ -114,10 +139,18 @@ class Settings extends React.Component {
 
 Settings.propTypes = {
   updateSettingsFunc: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+  settings: PropTypes.objectOf(PropTypes.string).isRequired,
 };
+
+const mapStateToProps = (state) => ({
+  settings: state.game.settings,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   updateSettingsFunc: (payload) => dispatch(updateSettings(payload)),
 });
 
-export default connect(null, mapDispatchToProps)(Settings);
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);
