@@ -116,7 +116,7 @@ class Settings extends React.Component {
 
             <button
               type="button"
-              data-testid="btn-settings-change"
+              data-testid="btn-reset-settings"
               onClick={ this.resetSettings }
             >
               Reset Settings
@@ -124,7 +124,7 @@ class Settings extends React.Component {
 
             <button
               type="button"
-              data-testid="btn-settings-change"
+              data-testid="btn-change-settings"
               onClick={ this.handleSettingsChange }
             >
               Apply

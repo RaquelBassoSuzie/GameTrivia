@@ -1,8 +1,14 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, waitForElementToBeRemoved } from '@testing-library/react';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
+
+const token = {
+  response_code: 0,
+  response_message: "Token Generated Successfully!",
+  token: "7dc183f87c5f2704465b0e14e2f1657c2afdb6b4336b760fcd5ba0ba2428223c",
+};
 
 const questions = {
   response_code: 0,
@@ -51,19 +57,181 @@ const questions = {
 };
 
 describe('Verifica o comportamento da aplicação na página de Feedback', () => {
-  it('avalia a renderização do componente Feedback', () => {
-    const INICIAL_STATE_1 = {
-      player: {
-        name: 'Meu Nome',
-        gravatarEmail: 'meu-email@teste.com',
-        score: 0,
-        assertions: 0,
-      },
-      game: {
-        questions, 
-      }
-    };
+  it('avalia a renderização do componente Game', async () => {
+    const { history } = renderWithRouterAndRedux(<App />, {}, '/');
 
-    renderWithRouterAndRedux(<App />, INICIAL_STATE_1, '/feedback');
+    // Aplicação do spyOn baseado no exemplo presente na página do Benjamin Johnson
+    // Com a aplicação de dois fetch seguidos com .mockImplementationOnce
+    // link: https://benjaminjohnson.me/mocking-fetch
+    const fetchMock = jest
+      .spyOn(global, 'fetch')
+      .mockImplementationOnce(() => Promise.resolve({ json: () => Promise.resolve(token) }))
+      .mockImplementationOnce(() => Promise.resolve({ json: () => Promise.resolve(questions) }));
+
+    const nameInput = screen.getByTestId('input-player-name');
+    const emailInput = screen.getByTestId('input-gravatar-email');
+    const buttonPlay = screen.getByTestId('btn-play');
+    userEvent.type(nameInput, 'Meu Nome');
+    userEvent.type(emailInput, 'meu-email@teste.com');
+    userEvent.click(buttonPlay);
+
+    expect(fetchMock).toBeCalledTimes(1);
+
+    await waitForElementToBeRemoved(() => screen.getByTestId('btn-play'));
+
+    expect(fetchMock).toBeCalledTimes(2);
+
+    const { location: { pathname } } = history;
+    expect(pathname).toBe('/game');
+
+    const localStorageItem = localStorage.getItem('token');
+    expect(localStorageItem).toBe(token.token);
+
+    const arrayDataTestIdsQuestionCard = [
+      "question-text",
+      "question-category",
+      "answer-options",
+      "correct-answer",
+      'wrong-answer-0',
+      'wrong-answer-1',
+      'wrong-answer-2',
+    ];
+
+    arrayDataTestIdsQuestionCard.forEach((dataTestId) => {
+      const infoElement = screen.getByTestId(dataTestId);
+      expect(infoElement).toBeInTheDocument();
+    });
+
+    userEvent.click(screen.getByTestId("correct-answer"));
+    expect(screen.getByTestId("btn-next")).toBeInTheDocument();
+  });
+
+  it('avalia o comportamento do pior jogo possível', async () => {
+    renderWithRouterAndRedux(<App />, {}, '/');
+
+    // Aplicação do spyOn baseado no exemplo presente na página do Benjamin Johnson
+    // Com a aplicação de dois fetch seguidos com .mockImplementationOnce
+    // link: https://benjaminjohnson.me/mocking-fetch
+    const fetchMock = jest
+      .spyOn(global, 'fetch')
+      .mockImplementationOnce(() => Promise.resolve({ json: () => Promise.resolve(token) }))
+      .mockImplementationOnce(() => Promise.resolve({ json: () => Promise.resolve(questions) }));
+
+    expect(fetchMock).toBeCalled();
+    
+    const nameInput = screen.getByTestId('input-player-name');
+    const emailInput = screen.getByTestId('input-gravatar-email');
+    const buttonPlay = screen.getByTestId('btn-play');
+    userEvent.type(nameInput, 'Meu Nome');
+    userEvent.type(emailInput, 'meu-email@teste.com');
+    userEvent.click(buttonPlay);
+
+    await waitForElementToBeRemoved(() => screen.getByTestId('btn-play'));
+
+    questions.results.forEach(() => {
+      const questionElement = screen.getByTestId("question-text");
+      expect(questionElement).toBeInTheDocument();
+      // console.log(questionElement.innerHTML);
+      const correctAnswerElement = screen.getByTestId("correct-answer");
+      const incorrectAnswerElement0 = screen.getByTestId('wrong-answer-0');
+      const incorrectAnswerElement1 = screen.getByTestId('wrong-answer-1');
+      const incorrectAnswerElement2 = screen.getByTestId('wrong-answer-2');
+      expect(incorrectAnswerElement0).toBeInTheDocument();
+      expect(incorrectAnswerElement1).toBeInTheDocument();
+      expect(incorrectAnswerElement2).toBeInTheDocument();
+      userEvent.click(incorrectAnswerElement0);
+      const nextButton = screen.getByTestId("btn-next");
+      userEvent.click(nextButton);
+    });
+
+    const message = screen.getByTestId("feedback-text");
+    expect(message.innerHTML).toBe('Could be better...');
+  });
+
+  it('avalia o comportamento do jogo perfeito', async () => {
+    renderWithRouterAndRedux(<App />, {}, '/');
+
+    // Aplicação do spyOn baseado no exemplo presente na página do Benjamin Johnson
+    // Com a aplicação de dois fetch seguidos com .mockImplementationOnce
+    // link: https://benjaminjohnson.me/mocking-fetch
+    const fetchMock = jest
+      .spyOn(global, 'fetch')
+      .mockImplementationOnce(() => Promise.resolve({ json: () => Promise.resolve(token) }))
+      .mockImplementationOnce(() => Promise.resolve({ json: () => Promise.resolve(questions) }));
+
+    expect(fetchMock).toBeCalled();
+
+    const nameInput = screen.getByTestId('input-player-name');
+    const emailInput = screen.getByTestId('input-gravatar-email');
+    const buttonPlay = screen.getByTestId('btn-play');
+    userEvent.type(nameInput, 'Meu Nome');
+    userEvent.type(emailInput, 'meu-email@teste.com');
+    userEvent.click(buttonPlay);
+
+    await waitForElementToBeRemoved(() => screen.getByTestId('btn-play'));
+
+    questions.results.forEach(() => {
+      const questionElement = screen.getByTestId("question-text");
+      expect(questionElement).toBeInTheDocument();
+      // console.log(questionElement.innerHTML);
+      const correctAnswerElement = screen.getByTestId("correct-answer");
+      const incorrectAnswerElement0 = screen.getByTestId('wrong-answer-0');
+      const incorrectAnswerElement1 = screen.getByTestId('wrong-answer-1');
+      const incorrectAnswerElement2 = screen.getByTestId('wrong-answer-2');
+      expect(incorrectAnswerElement0).toBeInTheDocument();
+      expect(incorrectAnswerElement1).toBeInTheDocument();
+      expect(incorrectAnswerElement2).toBeInTheDocument();
+      userEvent.click(correctAnswerElement);
+      const nextButton = screen.getByTestId("btn-next");
+      userEvent.click(nextButton);
+    });
+
+    const message = screen.getByTestId("feedback-text");
+    expect(message.innerHTML).toBe('Well Done!');
+  });
+
+  it('avalia o comportamento temporizador', async () => {
+    renderWithRouterAndRedux(<App />, {}, '/');
+
+    // Aplicação do spyOn baseado no exemplo presente na página do Benjamin Johnson
+    // Com a aplicação de dois fetch seguidos com .mockImplementationOnce
+    // link: https://benjaminjohnson.me/mocking-fetch
+    const fetchMock = jest
+      .spyOn(global, 'fetch')
+      .mockImplementationOnce(() => Promise.resolve({ json: () => Promise.resolve(token) }))
+      .mockImplementationOnce(() => Promise.resolve({ json: () => Promise.resolve(questions) }));
+
+    // Aplicação do Timer Mock proveniente da documentação
+    // link: https://jestjs.io/docs/timer-mocks
+    jest.useFakeTimers();
+    const setTimeoutMock = jest.spyOn(global, 'setTimeout');
+    expect(fetchMock).toBeCalled();
+    
+    const nameInput = screen.getByTestId('input-player-name');
+    const emailInput = screen.getByTestId('input-gravatar-email');
+    const buttonPlay = screen.getByTestId('btn-play');
+    userEvent.type(nameInput, 'Meu Nome');
+    userEvent.type(emailInput, 'meu-email@teste.com');
+    userEvent.click(buttonPlay);
+    
+    await waitForElementToBeRemoved(() => screen.getByTestId('btn-play'));
+    
+    expect(setTimeoutMock).toBeCalledTimes(1);
+    const correctAnswerElement = screen.getByTestId("correct-answer");
+    const incorrectAnswerElement0 = screen.getByTestId('wrong-answer-0');
+    const incorrectAnswerElement1 = screen.getByTestId('wrong-answer-1');
+    const incorrectAnswerElement2 = screen.getByTestId('wrong-answer-2');
+ 
+    expect(correctAnswerElement).not.toBeDisabled();
+    expect(incorrectAnswerElement0).not.toBeDisabled();
+    expect(incorrectAnswerElement1).not.toBeDisabled();
+    expect(incorrectAnswerElement2).not.toBeDisabled();
+
+    jest.advanceTimersByTime(32000);
+
+    expect(correctAnswerElement).toBeDisabled();
+    expect(incorrectAnswerElement0).toBeDisabled();
+    expect(incorrectAnswerElement1).toBeDisabled();
+    expect(incorrectAnswerElement2).toBeDisabled();
   });
 });

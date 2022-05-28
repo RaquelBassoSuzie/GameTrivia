@@ -82,7 +82,6 @@ class Game extends React.Component {
       }
       const response = await fetch(URL);
       const data = await response.json();
-      console.log(data);
       const errorCode = 3;
       if (data.response_code === errorCode) {
         const { history } = this.props;
@@ -94,7 +93,7 @@ class Game extends React.Component {
         const { saveQuestionsStore } = this.props;
         const dataPrepare = this.prepareOptionsForQuestion(data.results);
         saveQuestionsStore(dataPrepare);
-        this.setState({ loading: false, displayQuestions: true });
+        this.setState({ error: false, loading: false, displayQuestions: true });
       }
     });
   }
