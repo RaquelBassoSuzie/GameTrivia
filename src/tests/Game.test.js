@@ -10,6 +10,14 @@ const token = {
   token: "7dc183f87c5f2704465b0e14e2f1657c2afdb6b4336b760fcd5ba0ba2428223c",
 };
 
+const tokenInvalid = {
+  response_code: 0,
+  response_message: "Token Generated Successfully!",
+  token: "7dc183f87c5f2704465b0e14e2f1657c2afdb6b4336b760fcd5ba0ba2428223c",
+};
+
+const questionsWiyhTokenInvalid = { response_code: 3, results: [] };
+
 const questions = {
   response_code: 0,
   results:[
@@ -233,5 +241,25 @@ describe('Verifica o comportamento da aplicação na página de Feedback', () =>
     expect(incorrectAnswerElement0).toBeDisabled();
     expect(incorrectAnswerElement1).toBeDisabled();
     expect(incorrectAnswerElement2).toBeDisabled();
+  });
+
+  it('avalia o comportamento da aplicação com um token inválido', async () => {
+    const { history } = renderWithRouterAndRedux(<App />, {}, '/');
+
+    const fetchMock = jest
+      .spyOn(global, 'fetch')
+      .mockImplementationOnce(() => Promise.resolve({ json: () => Promise.resolve(tokenInvalid) }))
+      .mockImplementationOnce(() => Promise.resolve({ json: () => Promise.resolve(questionsWiyhTokenInvalid) }));
+
+    const nameInput = screen.getByTestId('input-player-name');
+    const emailInput = screen.getByTestId('input-gravatar-email');
+    const buttonPlay = screen.getByTestId('btn-play');
+    userEvent.type(nameInput, 'Meu Nome');
+    userEvent.type(emailInput, 'meu-email@teste.com');
+    userEvent.click(buttonPlay);
+
+    const { location: { pathname } } = history;
+    expect(pathname).toBe('/');
+    
   });
 });

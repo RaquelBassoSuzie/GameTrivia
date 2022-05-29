@@ -60,7 +60,12 @@ describe('Verifica o comportamento da aplicação na página de Feedback', () =>
         assertions: 0,
       },
       game: {
-        questions, 
+        questions,
+        settings: {
+          category: '',
+          difficulty: '',
+          type: '',
+        },
       }
     };
 
@@ -100,7 +105,12 @@ describe('Verifica o comportamento da aplicação na página de Feedback', () =>
         assertions: 2,
       },
       game: {
-        questions, 
+        questions,
+        settings: {
+          category: '',
+          difficulty: '',
+          type: '',
+        },
       }
     };
 
@@ -126,7 +136,12 @@ describe('Verifica o comportamento da aplicação na página de Feedback', () =>
         assertions: 4,
       },
       game: {
-        questions, 
+        questions,
+        settings: {
+          category: '',
+          difficulty: '',
+          type: '',
+        },
       }
     };
 
@@ -152,7 +167,12 @@ describe('Verifica o comportamento da aplicação na página de Feedback', () =>
         assertions: 4,
       },
       game: {
-        questions, 
+        questions,
+        settings: {
+          category: '',
+          difficulty: '',
+          type: '',
+        },
       }
     };
 
