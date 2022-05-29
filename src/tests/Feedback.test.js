@@ -164,4 +164,29 @@ describe('Verifica o comportamento da aplicação na página de Feedback', () =>
     const { location: { pathname } } = history;
     expect(pathname).toBe('/');
   });
+
+  it('avalia a renderização do componente Ranking ao clicar no botão Ranking', () => {
+    const INICIAL_STATE_3 = {
+      player: {
+        name: 'Meu Nome',
+        gravatarEmail: 'meu-email@teste.com',
+        score: 327,
+        assertions: 4,
+      },
+      game: {
+        questions, 
+      }
+    };
+
+    const { history} = renderWithRouterAndRedux(<App />, INICIAL_STATE_3, '/feedback');
+
+    const buttonRanking = screen.getByTestId("btn-ranking");
+    userEvent.click(buttonRanking);
+
+    const rankingTitle = screen.getByTestId("ranking-title");
+    expect(rankingTitle).toBeInTheDocument();
+
+    const { location: { pathname } } = history;
+    expect(pathname).toBe('/ranking');
+  });
 });
