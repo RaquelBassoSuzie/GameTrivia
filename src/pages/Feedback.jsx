@@ -9,6 +9,11 @@ class Feedback extends React.Component {
     history.push('/');
   }
 
+  goToRanking = () => {
+    const { history } = this.props;
+    history.push('/ranking');
+  }
+
   render() {
     const { score, assertions } = this.props;
     const THREE = 3;
@@ -16,11 +21,21 @@ class Feedback extends React.Component {
       <header>
         <Header />
         <section>
+
           <p data-testid="feedback-text">
             { assertions >= THREE ? 'Well Done!' : 'Could be better...' }
           </p>
           <p data-testid="feedback-total-score">{ score }</p>
           <p data-testid="feedback-total-question">{ Number(assertions) }</p>
+
+          <button
+            type="button"
+            onClick={ this.goToRanking }
+            data-testid="btn-ranking"
+          >
+            Ranking
+          </button>
+
           <button
             type="button"
             onClick={ this.backToLogin }
@@ -28,6 +43,7 @@ class Feedback extends React.Component {
           >
             Play Again
           </button>
+
         </section>
       </header>
     );
