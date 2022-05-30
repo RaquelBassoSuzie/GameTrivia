@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+// import { connect } from 'react-redux';
 
 class Ranking extends Component {
   backToLogin = () => {
@@ -8,6 +9,8 @@ class Ranking extends Component {
   }
 
   render() {
+    const ranking = JSON.parse(localStorage.getItem('ranking')) || [];
+    ranking.sort((a, b) => b.score - a.score);
     return (
       <section>
         <h1 data-testid="ranking-title">Ranking</h1>
@@ -18,9 +21,15 @@ class Ranking extends Component {
         >
           Login
         </button>
-        { /* 19 - Allyson - adicionar o conteudo da página de ranking */ }
-        { /* 20 - a definir -
-        realizar os testes da tela de ranking + teste adicionar na tela de feedback */ }
+        <div>
+          { ranking.map((player, index) => (
+            <div key={ index }>
+              <img src={ player.picture } alt="Player" />
+              <span data-testid={ `player-name-${index}` }>{ player.name }</span>
+              <span data-testid={ `player-score-${index}` }>{ player.score }</span>
+            </div>
+          )) }
+        </div>
       </section>
     );
   }
