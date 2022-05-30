@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+// import { connect } from 'react-redux';
 
 class Ranking extends Component {
   backToLogin = () => {
@@ -9,7 +10,6 @@ class Ranking extends Component {
 
   render() {
     const ranking = JSON.parse(localStorage.getItem('ranking')) || [];
-    ranking.sort((a, b) => a.name - b.name);
     ranking.sort((a, b) => b.score - a.score);
     return (
       <section>

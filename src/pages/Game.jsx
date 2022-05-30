@@ -136,7 +136,7 @@ Game.propTypes = {
   saveQuestionsStore: PropTypes.func.isRequired,
   myName: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
-  myScore: PropTypes.string.isRequired,
+  myScore: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = (state) => ({

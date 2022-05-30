@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import logo from '../trivia.png';
 import fetchTriviaQuestions from '../services/fetchToken';
 import { changePlayer } from '../redux/actions';
+import clearGame from '../redux/actions/clearGame';
 
 class Login extends React.Component {
   constructor() {
@@ -13,6 +14,13 @@ class Login extends React.Component {
       email: '',
       isButtonDisabled: true,
     };
+  }
+
+  componentDidMount() {
+    const { resetScore } = this.props;
+    console.log('ok');
+    resetScore();
+    console.log('ok2');
   }
 
   handleChange = ({ target }) => {
@@ -38,6 +46,7 @@ class Login extends React.Component {
   catchClickPlay = async () => {
     const { token } = await fetchTriviaQuestions();
     const { handleChangePlayer } = this.props;
+    console.log(handleChangePlayer);
     localStorage.setItem('token', token);
     const { name, email } = this.state;
     const result = {
@@ -102,10 +111,12 @@ Login.propTypes = {
     push: PropTypes.func,
   }).isRequired,
   handleChangePlayer: PropTypes.func.isRequired,
+  resetScore: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   handleChangePlayer: (payload) => dispatch(changePlayer(payload)),
+  resetScore: () => dispatch(clearGame()),
 });
 
 export default connect(null, mapDispatchToProps)(Login);
