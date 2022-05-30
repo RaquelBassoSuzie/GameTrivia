@@ -1,8 +1,14 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, waitForElementToBeRemoved, waitFor } from '@testing-library/react';
 import renderWithRouterAndRedux from './helpers/renderWithRouterAndRedux';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
+
+const token = {
+  response_code: 0,
+  response_message: "Token Generated Successfully!",
+  token: "7dc183f87c5f2704465b0e14e2f1657c2afdb6b4336b760fcd5ba0ba2428223c",
+};
 
 const questions = {
   response_code: 0,
@@ -50,8 +56,14 @@ const questions = {
   ]
 };
 
-describe('Verifica o comportamento da aplicação na página de Feedback', () => {
-  it('avalia a renderização do componente Feedback', () => {
+describe('Verifica o comportamento da aplicação na página de Ranking', () => {
+  const name1 = 'Nome 1';
+  const name2 = 'Nome 2';
+  const name3 = 'Nome 3';
+
+  const correctOrder = [name1, name3, name2];
+
+  it('avalia a renderização dos elementos da página de Ranking', () => {
     const INICIAL_STATE_1 = {
       player: {
         name: 'Meu Nome',
@@ -64,6 +76,140 @@ describe('Verifica o comportamento da aplicação na página de Feedback', () =>
       }
     };
 
-    renderWithRouterAndRedux(<App />, INICIAL_STATE_1, '/feedback');
+    const { history } = renderWithRouterAndRedux(<App />, INICIAL_STATE_1, '/ranking');
+    
+    const titleRanking = screen.getByTestId("ranking-title");
+    expect(titleRanking).toBeInTheDocument();
+
+    const buttonGoHome = screen.getByTestId("btn-go-home");
+    expect(buttonGoHome).toBeInTheDocument();
+    userEvent.click(buttonGoHome);
+
+    const { location: { pathname } } = history;
+    expect(pathname).toBe('/');
+  });
+
+  it('Implementação do primeiro game', async () => {
+
+    const fetchMock = jest
+      .spyOn(global, 'fetch')
+      .mockImplementationOnce(() => Promise.resolve({ json: () => Promise.resolve(token) }))
+      .mockImplementationOnce(() => Promise.resolve({ json: () => Promise.resolve(questions) }));
+    
+    const { history } = renderWithRouterAndRedux(<App />, {}, '/');
+
+    // Game 1 - Pontuação máxima
+    const nameInput = screen.getByTestId('input-player-name');
+    const emailInput = screen.getByTestId('input-gravatar-email');
+    const buttonPlay = screen.getByTestId('btn-play');
+    userEvent.type(nameInput, name1);
+    userEvent.type(emailInput, 'meu-email@teste.com');
+    userEvent.click(buttonPlay);
+
+    expect(fetchMock).toBeCalled();
+
+    await waitForElementToBeRemoved(() => screen.getByTestId('btn-play'));
+
+    questions.results.forEach(() => {
+      userEvent.click(screen.getByTestId("correct-answer"));
+      userEvent.click(screen.getByTestId("btn-next"));
+    });
+
+    const storage = localStorage.getItem('ranking');
+    expect(JSON.parse(storage)).toHaveLength(1);
+
+    const buttonPlayAgain = screen.getByTestId("btn-play-again");
+    userEvent.click(buttonPlayAgain);
+    
+    const { location: { pathname } } = history;
+    expect(pathname).toBe('/');
+  });
+
+  it('Implementação do segundo game', async () => {
+
+    const fetchMock = jest
+      .spyOn(global, 'fetch')
+      .mockImplementationOnce(() => Promise.resolve({ json: () => Promise.resolve(token) }))
+      .mockImplementationOnce(() => Promise.resolve({ json: () => Promise.resolve(questions) }));
+    
+    const { history } = renderWithRouterAndRedux(<App />, {}, '/');
+
+    // Game 2 - Pontuação nula
+    const nameInput = screen.getByTestId('input-player-name');
+    const emailInput = screen.getByTestId('input-gravatar-email');
+    const buttonPlay = screen.getByTestId('btn-play');
+    userEvent.type(nameInput, name2);
+    userEvent.type(emailInput, 'meu-email@teste.com');
+    userEvent.click(buttonPlay);
+
+    expect(fetchMock).toBeCalled();
+
+    await waitForElementToBeRemoved(() => screen.getByTestId('btn-play'));
+
+    questions.results.forEach(() => {
+      userEvent.click(screen.getByTestId('wrong-answer-0'));
+      userEvent.click(screen.getByTestId("btn-next"));
+    });
+
+    const storage = localStorage.getItem('ranking');
+    expect(JSON.parse(storage)).toHaveLength(2);
+
+    const buttonPlayAgain = screen.getByTestId("btn-play-again");
+    userEvent.click(buttonPlayAgain);
+    
+    const { location: { pathname } } = history;
+    expect(pathname).toBe('/');
+  });
+
+  it('Implementação do terceiro game e renderização dos ranking ordenandos corretamente', async () => {
+
+    const fetchMock = jest
+      .spyOn(global, 'fetch')
+      .mockImplementationOnce(() => Promise.resolve({ json: () => Promise.resolve(token) }))
+      .mockImplementationOnce(() => Promise.resolve({ json: () => Promise.resolve(questions) }));
+    
+    const { history } = renderWithRouterAndRedux(<App />, {}, '/');
+
+    // Game 3 - Pontuação mediana
+    const nameInput = screen.getByTestId('input-player-name');
+    const emailInput = screen.getByTestId('input-gravatar-email');
+    const buttonPlay = screen.getByTestId('btn-play');
+    userEvent.type(nameInput, name3);
+    userEvent.type(emailInput, 'meu-email@teste.com');
+    userEvent.click(buttonPlay);
+
+    expect(fetchMock).toBeCalled();
+
+    await waitForElementToBeRemoved(() => screen.getByTestId('btn-play'));
+
+    // Pergunta 1
+    userEvent.click(screen.getByTestId("correct-answer"));
+    userEvent.click(screen.getByTestId("btn-next"));
+    // Pergunta 2
+    userEvent.click(screen.getByTestId('wrong-answer-0'));
+    userEvent.click(screen.getByTestId("btn-next"));
+    // Pergunta 3
+    userEvent.click(screen.getByTestId('wrong-answer-0'));
+    userEvent.click(screen.getByTestId("btn-next"));
+    // Pergunta 4
+    userEvent.click(screen.getByTestId("correct-answer"));
+    userEvent.click(screen.getByTestId("btn-next"));
+    // Pergunta 5
+    userEvent.click(screen.getByTestId('wrong-answer-0'));
+    userEvent.click(screen.getByTestId("btn-next"));
+
+    const storage = localStorage.getItem('ranking');
+    expect(JSON.parse(storage)).toHaveLength(3);
+
+    const buttonRanking = screen.getByTestId("btn-ranking");
+    userEvent.click(buttonRanking);
+
+    const { location: { pathname } } = history;
+    expect(pathname).toBe('/ranking');
+
+    correctOrder.forEach((name, index) => {
+      const nameElement = screen.getByTestId(`player-name-${index}`);
+      expect(nameElement.innerHTML).toBe(name);
+    });
   });
 });
