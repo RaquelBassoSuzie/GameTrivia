@@ -18,7 +18,6 @@ const player = (state = INICIAL_STATE, action) => {
       score: state.score + action.payload,
     };
   case 'CLEAR_GAME':
-    console.log('limpou');
     return INICIAL_STATE;
   default:
     return state;
