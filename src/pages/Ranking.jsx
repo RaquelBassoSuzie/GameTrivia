@@ -9,6 +9,7 @@ class Ranking extends Component {
 
   render() {
     const ranking = JSON.parse(localStorage.getItem('ranking')) || [];
+    ranking.sort((a, b) => a.name - b.name);
     ranking.sort((a, b) => b.score - a.score);
     return (
       <section>
@@ -21,11 +22,11 @@ class Ranking extends Component {
           Login
         </button>
         <div>
-          <h3>RANKING</h3>
           { ranking.map((player, index) => (
             <div key={ index }>
+              <img src={ player.picture } alt="Player" />
               <span data-testid={ `player-name-${index}` }>{ player.name }</span>
-              <span data-testid={ `player-name-${index}` }>{ player.score }</span>
+              <span data-testid={ `player-score-${index}` }>{ player.score }</span>
             </div>
           )) }
         </div>
