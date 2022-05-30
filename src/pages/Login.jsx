@@ -18,9 +18,7 @@ class Login extends React.Component {
 
   componentDidMount() {
     const { resetScore } = this.props;
-    console.log('ok');
     resetScore();
-    console.log('ok2');
   }
 
   handleChange = ({ target }) => {
@@ -46,7 +44,6 @@ class Login extends React.Component {
   catchClickPlay = async () => {
     const { token } = await fetchTriviaQuestions();
     const { handleChangePlayer } = this.props;
-    console.log(handleChangePlayer);
     localStorage.setItem('token', token);
     const { name, email } = this.state;
     const result = {
