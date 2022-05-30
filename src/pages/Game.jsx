@@ -182,23 +182,14 @@ Game.propTypes = {
     push: PropTypes.func,
   }).isRequired,
   saveQuestionsStore: PropTypes.func.isRequired,
-<<<<<<< HEAD
   settings: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
 const mapStateToProps = (state) => ({
   settings: state.game.settings,
-=======
   myName: PropTypes.string.isRequired,
   email: PropTypes.string.isRequired,
   myScore: PropTypes.number.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  myName: state.player.name,
-  email: state.player.gravatarEmail,
-  myScore: state.player.score,
->>>>>>> 357a2ae998927238f4867bc14cf2596054631ef4
 });
 
 const mapDispatchToProps = (dispatch) => ({
