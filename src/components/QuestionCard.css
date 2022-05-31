@@ -12,8 +12,8 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
   gap: 30px;
+  justify-content: space-around;
   margin-bottom: 30px;
   min-height: 350px;
   padding: 40px 10px;
@@ -33,9 +33,9 @@
 }
 
 .question-card-quest-and-category-container {
+  align-items: center;
   color: black;
   display: flex;
-  align-items: center;
   flex-direction: column;
   gap: 20px;
   text-align: center;

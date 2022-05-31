@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { updateSettings } from '../redux/actions';
+import logo from '../trivia.png';
+import './Settings.css';
 
 class Settings extends React.Component {
   constructor() {
@@ -64,74 +66,91 @@ class Settings extends React.Component {
   render() {
     const { categoriesAPI, loading, category, difficulty, type } = this.state;
     return (
-      <section>
-        <h1 data-testid="settings-title">Settings</h1>
-        {loading ? (
-          <h4>Loading...</h4>
-        ) : (
-          <form>
-            <label htmlFor="category">
-              Category
-              <select
-                name="category"
-                id="category"
-                value={ category }
-                onChange={ this.handleChange }
+      <section className="settings-container">
+        <img src={ logo } className="settings-logo" alt="logo" />
+        <div className="settings-main-display">
+          <h1 data-testid="settings-title" className="settings-title">Settings</h1>
+          {loading ? (
+            <h4>Loading...</h4>
+          ) : (
+            <form className="form-group settings-form">
+              <label
+                htmlFor="category"
+                className="settings-label"
               >
-                <option value="">Default</option>
-                {categoriesAPI.map(({ id, name }) => (
-                  <option key={ id } value={ id }>{name}</option>
-                ))}
-              </select>
-            </label>
+                Category
+                <select
+                  name="category"
+                  id="category"
+                  value={ category }
+                  onChange={ this.handleChange }
+                  className="form-control"
+                >
+                  <option value="">Default</option>
+                  {categoriesAPI.map(({ id, name }) => (
+                    <option key={ id } value={ id }>{name}</option>
+                  ))}
+                </select>
+              </label>
 
-            <label htmlFor="difficulty">
-              Difficulty
-              <select
-                name="difficulty"
-                id="difficulty"
-                value={ difficulty }
-                onChange={ this.handleChange }
+              <label
+                htmlFor="difficulty"
+                className="settings-label"
               >
-                <option value="">Default</option>
-                <option value="easy">Easy</option>
-                <option value="medium">Medium</option>
-                <option value="hard">Hard</option>
-              </select>
-            </label>
+                Difficulty
+                <select
+                  name="difficulty"
+                  id="difficulty"
+                  value={ difficulty }
+                  onChange={ this.handleChange }
+                  className="form-control"
+                >
+                  <option value="">Default</option>
+                  <option value="easy">Easy</option>
+                  <option value="medium">Medium</option>
+                  <option value="hard">Hard</option>
+                </select>
+              </label>
 
-            <label htmlFor="type">
-              Type
-              <select
-                name="type"
-                id="type"
-                value={ type }
-                onChange={ this.handleChange }
+              <label
+                htmlFor="type"
+                className="settings-label"
               >
-                <option value="">Default</option>
-                <option value="multiple">Multiple Choice</option>
-                <option value="boolean">True or False</option>
-              </select>
-            </label>
+                Type
+                <select
+                  name="type"
+                  id="type"
+                  value={ type }
+                  onChange={ this.handleChange }
+                  className="form-control"
+                >
+                  <option value="">Default</option>
+                  <option value="multiple">Multiple Choice</option>
+                  <option value="boolean">True or False</option>
+                </select>
+              </label>
+              <aside className="settings-aside-button">
+                <button
+                  type="button"
+                  data-testid="btn-reset-settings"
+                  onClick={ this.resetSettings }
+                  className="btn btn-danger"
+                >
+                  Reset Settings
+                </button>
 
-            <button
-              type="button"
-              data-testid="btn-reset-settings"
-              onClick={ this.resetSettings }
-            >
-              Reset Settings
-            </button>
-
-            <button
-              type="button"
-              data-testid="btn-change-settings"
-              onClick={ this.handleSettingsChange }
-            >
-              Apply
-            </button>
-          </form>
-        )}
-
+                <button
+                  type="button"
+                  data-testid="btn-change-settings"
+                  onClick={ this.handleSettingsChange }
+                  className="btn btn-success"
+                >
+                  Apply
+                </button>
+              </aside>
+            </form>
+          )}
+        </div>
       </section>
     );
   }

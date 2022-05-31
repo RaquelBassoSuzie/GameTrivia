@@ -260,6 +260,5 @@ describe('Verifica o comportamento da aplicação na página de Feedback', () =>
 
     const { location: { pathname } } = history;
     expect(pathname).toBe('/');
-    
   });
 });

@@ -7,24 +7,24 @@
 }
 
 .feedback-informations {
-  text-align: center;
   background-color: hsla(180, 100%, 97%, 0.7);
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
   font-size: xx-large;
-  padding: 40px 40px;
+  padding: 40px;
+  text-align: center;
   width: 70%;
 }
 
 .feedback-button-section {
   align-items: center;
   display: flex;
-  justify-content: center;
   gap: 30px;
+  justify-content: center;
   margin-top: 30px;
 }
 
 .feedback-image-message {
-  width: 25%;
   margin-bottom: 30px;
+  width: 25%;
 }

@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
+import photo1 from '../image/flock-happy.jpg';
+import photo2 from '../image/flock-sad.jpg';
 import './Feedback.css';
 
 class Feedback extends React.Component {
@@ -24,13 +26,13 @@ class Feedback extends React.Component {
         <section className="feedback-informations">
           { assertions >= THREE
               && <img
-                src="https://cdn-icons-png.flaticon.com/512/5229/5229592.png"
+                src={ photo1 }
                 alt="Well Done"
                 className="feedback-image-message"
               /> }
           { assertions < THREE
             && <img
-              src="https://freepngimg.com/thumb/machine/56248-5-keep-going-download-download-free-image.png"
+              src={ photo2 }
               alt="Well Done"
               className="feedback-image-message"
             /> }

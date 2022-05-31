@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import logo from '../trivia.png';
 import fetchTriviaQuestions from '../services/fetchToken';
 import { changePlayer } from '../redux/actions';
 import clearGame from '../redux/actions/clearGame';
+import logo from '../trivia.png';
 import './Login.css';
 
 class Login extends React.Component {
