@@ -1,0 +1,45 @@
+.question-card-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+}
+
+.question-card-question-container {
+  align-items: center;
+  background-color: hsla(180, 100%, 97%, 0.7);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 30px;
+  min-height: 350px;
+  padding: 20px 10px;
+  width: 100%;
+}
+
+.question-card-timer {
+  background-color: #e1e5eb;
+  border-radius: 50px;
+  font-size: xx-large;
+  height: 50px;
+  position: absolute;
+  right: 100px;
+  text-align: center;
+  top: 100px;
+  width: 50px;
+}
+
+.question-card-quest-and-category-container {
+  color: black;
+  text-align: center;
+  width: 50%;
+}
+
+.question-card-options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  width: 45%;
+}

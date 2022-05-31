@@ -5,6 +5,7 @@ import md5 from 'crypto-js/md5';
 import Header from '../components/Header';
 import QuestionCard from '../components/QuestionCard';
 import { saveQuestions } from '../redux/actions';
+import './Game.css';
 
 class Game extends React.Component {
   constructor() {
@@ -109,10 +110,10 @@ class Game extends React.Component {
       loading, countTime, isDisabled, showNextBtn, style } = this.state;
 
     return (
-      <section>
+      <section className="game-container">
         <Header />
         {loading ? (
-          <h4>Loading...</h4>
+          <h4 className="game-loading">Loading...</h4>
         ) : (
           <QuestionCard
             indexQuestions={ indexQuestions }

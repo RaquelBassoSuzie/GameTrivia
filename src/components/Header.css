@@ -1,0 +1,27 @@
+.header-container {
+  align-items: center;
+  background-color: hsla(180, 100%, 97%, 0.8);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 30px;
+  padding-block: 20px;
+  width: 60%;
+}
+
+.header-user-info {
+  align-items: center;
+  display: flex;
+  gap: 50px;
+  justify-content: space-evenly;
+
+}
+
+.header-profile-photo {
+  border-radius: 60px;
+}
+
+.header-profile-name, .header-score {
+  text-transform: uppercase;
+}

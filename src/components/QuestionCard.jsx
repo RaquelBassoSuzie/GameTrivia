@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { updateScoreAndAssertions } from '../redux/actions';
+import './QuestionCard.css';
 
 class QuestionCard extends React.Component {
   handleClickRight = () => {
@@ -30,42 +31,48 @@ class QuestionCard extends React.Component {
     } = this.props;
     const { question, category, answers } = atualQuestion[indexQuestions];
     return (
-      <section>
-        <p>{countTime}</p>
-        <h3 data-testid="question-text">{ question }</h3>
-        <p data-testid="question-category">{ category }</p>
-        <div data-testid="answer-options">
-          { answers.map(({ type, answer, index }) => {
-            if (type) {
+      <section className="question-card-container">
+        <section className="question-card-question-container">
+          <p className="question-card-timer">{countTime}</p>
+          <div className="question-card-quest-and-category-container">
+            <h3 data-testid="question-text">{ question }</h3>
+            <h5 data-testid="question-category">{ category }</h5>
+          </div>
+          <div data-testid="answer-options" className="question-card-options-container">
+            { answers.map(({ type, answer, index }) => {
+              if (type) {
+                return (
+                  <button
+                    type="button"
+                    key="correct-answer"
+                    data-testid="correct-answer"
+                    style={ style ? (
+                      { border: '3px solid rgb(6, 240, 15)' })
+                      : { color: 'black' } }
+                    disabled={ isDisabled }
+                    onClick={ this.handleClickRight }
+                    className="btn btn-secondary"
+                  >
+                    { answer }
+                  </button>
+                );
+              }
               return (
                 <button
                   type="button"
-                  key="correct-answer"
-                  data-testid="correct-answer"
-                  style={ style ? (
-                    { border: '3px solid rgb(6, 240, 15)' })
-                    : { color: 'black' } }
+                  key={ `wrong-answer-${index}` }
+                  data-testid={ `wrong-answer-${index}` }
+                  style={ style ? { border: '3px solid red' } : { color: 'black' } }
                   disabled={ isDisabled }
-                  onClick={ this.handleClickRight }
+                  onClick={ this.handleClickWrong }
+                  className="btn btn-secondary"
                 >
                   { answer }
                 </button>
               );
-            }
-            return (
-              <button
-                type="button"
-                key={ `wrong-answer-${index}` }
-                data-testid={ `wrong-answer-${index}` }
-                style={ style ? { border: '3px solid red' } : { color: 'black' } }
-                disabled={ isDisabled }
-                onClick={ this.handleClickWrong }
-              >
-                { answer }
-              </button>
-            );
-          })}
-        </div>
+            })}
+          </div>
+        </section>
         { showNextBtn
           ? (
             <button
@@ -73,6 +80,7 @@ class QuestionCard extends React.Component {
               id="btn-next"
               type="button"
               onClick={ nextQuestion }
+              className="btn btn-light"
             >
               Next
             </button>) : ''}

@@ -1,0 +1,13 @@
+.game-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding-top: 80px;
+  width: 100%;
+}
+
+.game-loading {
+  color: white;
+  font-size: xx-large;
+}
