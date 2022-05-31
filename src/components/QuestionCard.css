@@ -2,7 +2,7 @@
   align-items: center;
   display: flex;
   flex-direction: column;
-  width: 60%;
+  width: 70%;
 }
 
 .question-card-question-container {
@@ -11,10 +11,12 @@
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
+  gap: 30px;
   margin-bottom: 30px;
   min-height: 350px;
-  padding: 20px 10px;
+  padding: 40px 10px;
   width: 100%;
 }
 
@@ -24,16 +26,20 @@
   font-size: xx-large;
   height: 50px;
   position: absolute;
-  right: 100px;
+  right: 50px;
   text-align: center;
-  top: 100px;
+  top: 150px;
   width: 50px;
 }
 
 .question-card-quest-and-category-container {
   color: black;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
   text-align: center;
-  width: 50%;
+  width: 80%;
 }
 
 .question-card-options-container {

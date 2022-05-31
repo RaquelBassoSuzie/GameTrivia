@@ -22,39 +22,55 @@ class Feedback extends React.Component {
       <section className="feedback-container">
         <Header />
         <section className="feedback-informations">
-          <p data-testid="feedback-text">
-            { assertions >= THREE ? 'Well Done!' : 'Could be better...' }
-          </p>
-          <p>
-            Score:
-            {' '}
-            <span data-testid="feedback-total-score">{ score }</span>
-          </p>
-          <p>
-            Assertions:
-            {' '}
-            <span data-testid="feedback-total-question">{ Number(assertions) }</span>
-          </p>
-        </section>
-        <aside className="feedback-button-section">
-          <button
-            type="button"
-            onClick={ this.goToRanking }
-            data-testid="btn-ranking"
-            className="btn btn-info"
-          >
-            Ranking
-          </button>
+          { assertions >= THREE
+              && <img
+                src="https://cdn-icons-png.flaticon.com/512/5229/5229592.png"
+                alt="Well Done"
+                className="feedback-image-message"
+              /> }
+          { assertions < THREE
+            && <img
+              src="https://www.pngplay.com/wp-content/uploads/12/E-Meme-Background-PNG-Image.png"
+              alt="Well Done"
+              className="feedback-image-message"
+            /> }
 
-          <button
-            type="button"
-            onClick={ this.backToLogin }
-            data-testid="btn-play-again"
-            className="btn btn-success"
-          >
-            Play Again
-          </button>
-        </aside>
+          <div>
+            <p data-testid="feedback-text">
+              { assertions >= THREE ? 'Well Done!' : 'Could be better...' }
+            </p>
+            <p>
+              Score:
+              {' '}
+              <span data-testid="feedback-total-score">{ score }</span>
+            </p>
+            <p>
+              Assertions:
+              {' '}
+              <span data-testid="feedback-total-question">{ Number(assertions) }</span>
+            </p>
+          </div>
+
+          <aside className="feedback-button-section">
+            <button
+              type="button"
+              onClick={ this.goToRanking }
+              data-testid="btn-ranking"
+              className="btn btn-info"
+            >
+              Ranking
+            </button>
+
+            <button
+              type="button"
+              onClick={ this.backToLogin }
+              data-testid="btn-play-again"
+              className="btn btn-success"
+            >
+              Play Again
+            </button>
+          </aside>
+        </section>
       </section>
     );
   }

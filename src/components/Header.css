@@ -1,27 +1,33 @@
 .header-container {
   align-items: center;
-  background-color: hsla(180, 100%, 97%, 0.8);
-  border-radius: 10px;
+  background-color: hsla(0, 0%, 0%, 0.9);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
+  color: white;
   display: flex;
   justify-content: space-around;
   margin-bottom: 30px;
   padding-block: 20px;
-  width: 60%;
+  width: 100%;
+}
+
+.header-logo {
+  width: 200px;
 }
 
 .header-user-info {
-  align-items: center;
+  align-items: flex-start;
   display: flex;
-  gap: 50px;
-  justify-content: space-evenly;
+  gap: 10px;
+  justify-content: center;
+
 
 }
 
 .header-profile-photo {
   border-radius: 60px;
+  width: 30px;
 }
 
-.header-profile-name, .header-score {
+/* .header-profile-name, .header-score {
   text-transform: uppercase;
-}
+} */

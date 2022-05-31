@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Header from '../components/Header';
 import './Ranking.css';
 
 class Ranking extends Component {
@@ -13,8 +14,26 @@ class Ranking extends Component {
     ranking.sort((a, b) => b.score - a.score);
     return (
       <section className="ranking-container">
+        <Header />
         <section className="ranking-informations">
           <h1 data-testid="ranking-title" className="ranking-title">Ranking</h1>
+          <div className="ranking-player">
+            { ranking.map((player, index) => (
+              <div key={ index } className="ranking-player-display">
+                <img src={ player.picture } alt="Player" />
+                <p data-testid={ `player-name-${index}` }>
+                  Name:
+                  {' '}
+                  { player.name }
+                </p>
+                <p>
+                  Score:
+                  {' '}
+                  <span data-testid={ `player-score-${index}` }>{ player.score }</span>
+                </p>
+              </div>
+            )) }
+          </div>
           <button
             data-testid="btn-go-home"
             type="button"
@@ -23,21 +42,6 @@ class Ranking extends Component {
           >
             Login
           </button>
-          <div className="ranking-player">
-            { ranking.map((player, index) => (
-              <div key={ index } className="ranking-player-display">
-                <img src={ player.picture } alt="Player" />
-                <div>
-                  <p data-testid={ `player-name-${index}` }>{ player.name }</p>
-                  <p>
-                    Score:
-                    {' '}
-                    <span data-testid={ `player-score-${index}` }>{ player.score }</span>
-                  </p>
-                </div>
-              </div>
-            )) }
-          </div>
         </section>
       </section>
     );

@@ -31,7 +31,10 @@ class Game extends React.Component {
       }), () => {
         const { countTime } = this.state;
         if (countTime === 0) {
-          this.setState({ isDisabled: true }, () => clearInterval(this.interval));
+          this.setState({
+            isDisabled: true,
+            showNextBtn: true,
+          }, () => clearInterval(this.interval));
         }
       });
     }, ONE_SECOND);

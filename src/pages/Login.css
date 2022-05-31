@@ -16,13 +16,17 @@
 }
 
 .login-logo {
-  margin-bottom: 10%;
-  width: 100%;
+  margin-bottom: 80px;
+  width: 130%;
 }
 
 .login-form {
+  background-color: hsla(180, 100%, 97%, 0.5);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
+  padding: 30px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  width: 80%;
+  gap: 15px;
+  width: 90%;
 }
