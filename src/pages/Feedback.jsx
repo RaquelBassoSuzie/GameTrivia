@@ -30,7 +30,7 @@ class Feedback extends React.Component {
               /> }
           { assertions < THREE
             && <img
-              src="https://www.pngplay.com/wp-content/uploads/12/E-Meme-Background-PNG-Image.png"
+              src="https://freepngimg.com/thumb/machine/56248-5-keep-going-download-download-free-image.png"
               alt="Well Done"
               className="feedback-image-message"
             /> }

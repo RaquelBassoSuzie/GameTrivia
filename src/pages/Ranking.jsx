@@ -11,14 +11,16 @@ class Ranking extends Component {
 
   render() {
     const ranking = JSON.parse(localStorage.getItem('ranking')) || [];
+    const maxRanking = 3;
     ranking.sort((a, b) => b.score - a.score);
+    const rankingFilter = ranking.filter((info) => ranking.indexOf(info) < maxRanking);
     return (
       <section className="ranking-container">
         <Header />
         <section className="ranking-informations">
           <h1 data-testid="ranking-title" className="ranking-title">Ranking</h1>
           <div className="ranking-player">
-            { ranking.map((player, index) => (
+            { rankingFilter.map((player, index) => (
               <div key={ index } className="ranking-player-display">
                 <img src={ player.picture } alt="Player" />
                 <p data-testid={ `player-name-${index}` }>
