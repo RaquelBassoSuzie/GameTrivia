@@ -87,6 +87,7 @@ class Game extends React.Component {
   nextQuestion = () => {
     const { indexQuestions } = this.state;
     const maxQuestions = 4;
+    const maxRanking = 3;
     this.setState((prevState) => ({
       isDisabled: false,
       showNextBtn: false,
@@ -103,7 +104,9 @@ class Game extends React.Component {
         score: myScore,
       };
       actualRank.push(result);
-      localStorage.setItem('ranking', JSON.stringify(actualRank));
+      const filterRank = actualRank
+        .filter((info) => actualRank.indexOf(info) < maxRanking);
+      localStorage.setItem('ranking', JSON.stringify(filterRank));
       history.push('/feedback');
     }
   }

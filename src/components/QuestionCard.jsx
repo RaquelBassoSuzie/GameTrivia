@@ -30,12 +30,25 @@ class QuestionCard extends React.Component {
       style,
     } = this.props;
     const { question, category, answers } = atualQuestion[indexQuestions];
+    const questionCleaned = question
+      .replace(/&#039;/, '\'')
+      .replace(/&#039;/, '\'')
+      .replace(/&#039;/, '\'')
+      .replace(/&#039;/, '\'')
+      .replace(/&quot;/, '"')
+      .replace(/&quot;/, '"')
+      .replace(/&quot;/, '"')
+      .replace(/&quot;/, '"')
+      .replace(/&eacute;/, 'é')
+      .replace(/&uuml;/, 'Ü')
+      .replace(/&lsquo;/, '\'')
+      .replace(/&lsquo;/, '\'');
     return (
       <section className="question-card-container">
         <section className="question-card-question-container">
           <p className="question-card-timer">{countTime}</p>
           <div className="question-card-quest-and-category-container">
-            <h3 data-testid="question-text">{ question }</h3>
+            <h3 data-testid="question-text">{ questionCleaned }</h3>
             <h5 data-testid="question-category">{ category }</h5>
           </div>
           <div data-testid="answer-options" className="question-card-options-container">
