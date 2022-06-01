@@ -19,6 +19,7 @@ class Game extends React.Component {
       style: false,
       error: false,
       displayQuestions: false,
+      interval: '',
     };
   }
 
@@ -27,19 +28,21 @@ class Game extends React.Component {
     this.fetchQuestions();
     // Aplicação do setInterval baseado na aula 12.1 do Gabriel Espindola
     // Código presente no link: https://github.com/tryber/sd-020-b-live-lectures/blob/lecture/12.1/trybem-estar/src/components/Timer.js
-    this.interval = setInterval(() => {
-      this.setState((prev) => ({
-        countTime: prev.countTime - 1,
-      }), () => {
-        const { countTime } = this.state;
-        if (countTime === 0) {
-          this.setState({
-            isDisabled: true,
-            showNextBtn: true,
-          }, () => clearInterval(this.interval));
-        }
-      });
-    }, ONE_SECOND);
+    this.setState({
+      interval: setInterval(() => {
+        this.setState((prev) => ({
+          countTime: prev.countTime - 1,
+        }), () => {
+          const { countTime, interval } = this.state;
+          if (countTime === 0) {
+            this.setState({
+              isDisabled: true,
+              showNextBtn: true,
+            }, () => clearInterval(interval));
+          }
+        });
+      }, ONE_SECOND),
+    });
   }
 
   prepareOptionsForQuestion = (datas) => datas.map((data) => {
@@ -117,15 +120,8 @@ class Game extends React.Component {
   }
 
   nextQuestion = () => {
-    const { indexQuestions } = this.state;
+    const { indexQuestions, interval } = this.state;
     const maxQuestions = 4;
-    this.setState((prevState) => ({
-      isDisabled: false,
-      showNextBtn: false,
-      countTime: 30,
-      style: false,
-      indexQuestions: prevState.indexQuestions + 1,
-    }));
     if (indexQuestions === maxQuestions) {
       const { history, myName, email, myScore } = this.props;
       const actualRank = JSON.parse(localStorage.getItem('ranking')) || [];
@@ -136,7 +132,18 @@ class Game extends React.Component {
       };
       actualRank.push(result);
       localStorage.setItem('ranking', JSON.stringify(actualRank));
+      // Necessita de um clearInterval para não deixar atualizando o tempo
+      // quando o componente não estiver mais sendo renderizado
+      clearInterval(interval);
       history.push('/feedback');
+    } else {
+      this.setState((prevState) => ({
+        isDisabled: false,
+        showNextBtn: false,
+        countTime: 30,
+        style: false,
+        indexQuestions: prevState.indexQuestions + 1,
+      }));
     }
   }
 
