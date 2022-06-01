@@ -154,25 +154,13 @@ class Game extends React.Component {
     return (
       <section className="game-container">
         <Header />
-        {/* {loading ? (
-          <h4 className="game-loading">Loading...</h4>
-        ) : (
-          <QuestionCard
-            indexQuestions={ indexQuestions }
-            countTime={ countTime }
-            isDisabled={ isDisabled }
-            afterAnswer={ this.afterAnswer }
-            nextQuestion={ this.nextQuestion }
-            showNextBtn={ showNextBtn }
-            style={ style }
-          />
-        )} */}
         { error && (
-          <div>
+          <div className="game-error">
             <h4>Error: Invalid Parameter</h4>
             <button
               type="button"
               onClick={ this.redirectButtonError }
+              className="btn btn-info"
             >
               Change Settings
             </button>

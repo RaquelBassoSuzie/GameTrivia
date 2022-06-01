@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Header from '../components/Header';
-import photo1 from '../image/flock-happy.jpg';
-import photo2 from '../image/flock-sad.jpg';
+import wellDoneGif from '../image/well-done.gif';
+import couldDoBetterGif from '../image/could-do-better.gif';
 import './Feedback.css';
 
 class Feedback extends React.Component {
@@ -26,14 +26,14 @@ class Feedback extends React.Component {
         <section className="feedback-informations">
           { assertions >= THREE
               && <img
-                src={ photo1 }
+                src={ wellDoneGif }
                 alt="Well Done"
                 className="feedback-image-message"
               /> }
           { assertions < THREE
             && <img
-              src={ photo2 }
-              alt="Well Done"
+              src={ couldDoBetterGif }
+              alt="Could be better"
               className="feedback-image-message"
             /> }
 
@@ -52,27 +52,26 @@ class Feedback extends React.Component {
               <span data-testid="feedback-total-question">{ Number(assertions) }</span>
             </p>
           </div>
-
-          <aside className="feedback-button-section">
-            <button
-              type="button"
-              onClick={ this.goToRanking }
-              data-testid="btn-ranking"
-              className="btn btn-info"
-            >
-              Ranking
-            </button>
-
-            <button
-              type="button"
-              onClick={ this.backToLogin }
-              data-testid="btn-play-again"
-              className="btn btn-success"
-            >
-              Play Again
-            </button>
-          </aside>
         </section>
+        <aside className="feedback-button-section">
+          <button
+            type="button"
+            onClick={ this.goToRanking }
+            data-testid="btn-ranking"
+            className="btn btn-info"
+          >
+            Ranking
+          </button>
+
+          <button
+            type="button"
+            onClick={ this.backToLogin }
+            data-testid="btn-play-again"
+            className="btn btn-success"
+          >
+            Play Again
+          </button>
+        </aside>
       </section>
     );
   }

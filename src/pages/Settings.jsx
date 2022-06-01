@@ -69,7 +69,7 @@ class Settings extends React.Component {
       <section className="settings-container">
         <img src={ logo } className="settings-logo" alt="logo" />
         <div className="settings-main-display">
-          <h1 data-testid="settings-title" className="settings-title">Settings</h1>
+          <h2 data-testid="settings-title" className="settings-title">Settings</h2>
           {loading ? (
             <h4 className="settings-loading">Loading...</h4>
           ) : (

@@ -18,15 +18,17 @@ class Ranking extends Component {
       <section className="ranking-container">
         <header className="ranking-header">
           <img src={ logo } className="ranking-logo" alt="logo" />
+          <h1 data-testid="ranking-title" className="ranking-title">Ranking</h1>
         </header>
         <section className="ranking-informations">
-          <h1 data-testid="ranking-title" className="ranking-title">Ranking</h1>
           <div className="ranking-player">
             { rankingFilter.map((player, index) => (
               <div key={ index } className="ranking-player-display">
                 <img src={ player.picture } alt="Player" />
-                <p data-testid={ `player-name-${index}` }>
-                  { player.name }
+                <p>
+                  Name:
+                  {' '}
+                  <span data-testid={ `player-name-${index}` }>{ player.name }</span>
                 </p>
                 <p>
                   Score:
@@ -36,15 +38,15 @@ class Ranking extends Component {
               </div>
             )) }
           </div>
-          <button
-            data-testid="btn-go-home"
-            type="button"
-            onClick={ this.backToLogin }
-            className="btn btn-success"
-          >
-            Login
-          </button>
         </section>
+        <button
+          data-testid="btn-go-home"
+          type="button"
+          onClick={ this.backToLogin }
+          className="btn btn-success"
+        >
+          Login
+        </button>
       </section>
     );
   }

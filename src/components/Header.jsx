@@ -11,7 +11,9 @@ class Header extends React.Component {
     const url = `https://www.gravatar.com/avatar/${md5(gravatarEmail)}`;
     return (
       <header className="header-container">
-        <img src={ logo } className="header-logo" alt="logo" />
+        <a href="/">
+          <img src={ logo } className="header-logo" alt="logo" />
+        </a>
         <h4 className="header-score">
           Score:
           {' '}
@@ -25,8 +27,8 @@ class Header extends React.Component {
             className="header-profile-photo"
           />
           <h3 data-testid="header-player-name" className="header-profile-name">
-            {/* Player: */}
-            {/* {' '} */}
+            Player:
+            {' '}
             { name }
           </h3>
         </div>

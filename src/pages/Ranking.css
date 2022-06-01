@@ -15,7 +15,6 @@
   flex-direction: column;
   gap: 15px;
   margin-bottom: 30px;
-  min-height: 350px;
   padding-block: 30px;
   width: 70%;
 }
@@ -59,7 +58,19 @@
   width: 100%;
 }
 
+.ranking-title {
+  /* Aplicação do título no centro no header proveniente do Stack OverFlow
+  link: https://stackoverflow.com/questions/8508275/how-to-center-a-position-absolute-element */
+  left: 0;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  text-transform: uppercase;
+}
+
 .ranking-logo {
-  margin-left: 12.7%;
+  margin-left: 10%;
   width: 200px;
 }
