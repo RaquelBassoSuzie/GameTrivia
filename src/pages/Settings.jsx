@@ -145,7 +145,7 @@ class Settings extends React.Component {
                   onClick={ this.handleSettingsChange }
                   className="btn btn-success"
                 >
-                  Apply
+                  Apply Change
                 </button>
               </aside>
             </form>
