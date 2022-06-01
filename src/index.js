@@ -6,7 +6,7 @@ import App from './App';
 import store from './redux/store/store';
 // Implementação do BootStrap no React
 // link: https://celke.com.br/artigo/como-integrar-o-react-com-bootstrap
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
   <Provider store={ store }>
