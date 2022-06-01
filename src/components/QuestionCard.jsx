@@ -77,17 +77,16 @@ class QuestionCard extends React.Component {
             })}
           </div>
         </section>
-        { showNextBtn
-          ? (
-            <button
-              data-testid="btn-next"
-              id="btn-next"
-              type="button"
-              onClick={ nextQuestion }
-              className="btn btn-light"
-            >
-              Next
-            </button>) : ''}
+        { showNextBtn && (
+          <button
+            data-testid="btn-next"
+            id="btn-next"
+            type="button"
+            onClick={ nextQuestion }
+            className="btn btn-light"
+          >
+            Next
+          </button>)}
       </section>
     );
   }

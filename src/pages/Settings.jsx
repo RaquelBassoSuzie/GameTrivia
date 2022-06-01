@@ -71,7 +71,7 @@ class Settings extends React.Component {
         <div className="settings-main-display">
           <h1 data-testid="settings-title" className="settings-title">Settings</h1>
           {loading ? (
-            <h4>Loading...</h4>
+            <h4 className="settings-loading">Loading...</h4>
           ) : (
             <form className="form-group settings-form">
               <label

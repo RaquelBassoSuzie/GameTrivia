@@ -245,48 +245,48 @@ describe('Verifica o comportamento da aplicação na página de Settings', () =>
     });
   });
 
-  // it('avalia a renderização do componente Settings com um game inválido', async () => {
-  //   const INICIAL_STATE_2 = {
-  //     player: {
-  //       name: '',
-  //       gravatarEmail: '',
-  //       score: 0,
-  //       assertions: 0,
-  //     },
-  //     game: {
-  //       questions: {},
-  //       settings: {
-  //         category: '25',
-  //         difficulty: 'medium',
-  //         type: 'boolean',
-  //       },
-  //     }
-  //   };
+  it('avalia a renderização do componente Settings com um game inválido', async () => {
+    const INICIAL_STATE_2 = {
+      player: {
+        name: '',
+        gravatarEmail: '',
+        score: 0,
+        assertions: 0,
+      },
+      game: {
+        questions: {},
+        settings: {
+          category: '25',
+          difficulty: 'medium',
+          type: 'boolean',
+        },
+      }
+    };
     
-  //   renderWithRouterAndRedux(<App />, INICIAL_STATE_2, '/');
-  //   const fetchMock = jest
-  //     .spyOn(global, 'fetch')
-  //     .mockImplementationOnce(() => Promise.resolve({ json: () => Promise.resolve(token) }))
-  //     .mockImplementationOnce(() => Promise.resolve({ json: () => Promise.resolve(fetchQuestionsFailed) }));
+    renderWithRouterAndRedux(<App />, INICIAL_STATE_2, '/');
+    const fetchMock = jest
+      .spyOn(global, 'fetch')
+      .mockImplementationOnce(() => Promise.resolve({ json: () => Promise.resolve(token) }))
+      .mockImplementationOnce(() => Promise.resolve({ json: () => Promise.resolve(fetchQuestionsFailed) }));
     
-  //   expect(fetchMock).toBeCalled();
+    expect(fetchMock).toBeCalled();
 
-  //   const nameInput = screen.getByTestId('input-player-name');
-  //   const emailInput = screen.getByTestId('input-gravatar-email');
-  //   const buttonPlay = screen.getByTestId('btn-play');
-  //   userEvent.type(nameInput, 'Meu Nome');
-  //   userEvent.type(emailInput, 'meu-email@teste.com');
-  //   userEvent.click(buttonPlay);
+    const nameInput = screen.getByTestId('input-player-name');
+    const emailInput = screen.getByTestId('input-gravatar-email');
+    const buttonPlay = screen.getByTestId('btn-play');
+    userEvent.type(nameInput, 'Meu Nome');
+    userEvent.type(emailInput, 'meu-email@teste.com');
+    userEvent.click(buttonPlay);
     
-  //   await waitForElementToBeRemoved(() => screen.getByTestId('btn-play'));
+    await waitForElementToBeRemoved(() => screen.getByTestId('btn-play'));
 
-  //   const errorMessage = screen.getByRole('heading', { name: 'Error: Invalid Parameter', level: 4 });
-  //   const changeSettingButton = screen.getByRole('button', { name: 'Change Settings' });
-  //   expect(errorMessage).toBeInTheDocument();
-  //   expect(changeSettingButton).toBeInTheDocument();
+    const errorMessage = screen.getByRole('heading', { name: 'Error: Invalid Parameter', level: 4 });
+    const changeSettingButton = screen.getByRole('button', { name: 'Change Settings' });
+    expect(errorMessage).toBeInTheDocument();
+    expect(changeSettingButton).toBeInTheDocument();
 
-  //   userEvent.click(changeSettingButton);
+    userEvent.click(changeSettingButton);
 
-  //   expect(screen.getByTestId("settings-title")).toBeInTheDocument();
-  // });
+    expect(screen.getByTestId("settings-title")).toBeInTheDocument();
+  });
 });

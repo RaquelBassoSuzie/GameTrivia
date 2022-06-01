@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Header from '../components/Header';
+import logo from '../trivia.png';
 import './Ranking.css';
 
 class Ranking extends Component {
@@ -16,7 +16,9 @@ class Ranking extends Component {
     const rankingFilter = ranking.filter((info) => ranking.indexOf(info) < maxRanking);
     return (
       <section className="ranking-container">
-        <Header />
+        <header className="ranking-header">
+          <img src={ logo } className="ranking-logo" alt="logo" />
+        </header>
         <section className="ranking-informations">
           <h1 data-testid="ranking-title" className="ranking-title">Ranking</h1>
           <div className="ranking-player">
@@ -24,8 +26,6 @@ class Ranking extends Component {
               <div key={ index } className="ranking-player-display">
                 <img src={ player.picture } alt="Player" />
                 <p data-testid={ `player-name-${index}` }>
-                  Name:
-                  {' '}
                   { player.name }
                 </p>
                 <p>

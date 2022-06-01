@@ -6,7 +6,7 @@
   display: flex;
   justify-content: space-around;
   margin-bottom: 30px;
-  padding-block: 20px;
+  padding-block: 40px 20px;
   width: 100%;
 }
 
@@ -19,8 +19,6 @@
   display: flex;
   gap: 10px;
   justify-content: center;
-
-
 }
 
 .header-profile-photo {
@@ -28,6 +26,6 @@
   width: 30px;
 }
 
-/* .header-profile-name, .header-score {
+.header-profile-name, .header-score {
   text-transform: uppercase;
-} */
+}

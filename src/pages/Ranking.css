@@ -17,7 +17,7 @@
   margin-bottom: 30px;
   min-height: 350px;
   padding-block: 30px;
-  width: 60%;
+  width: 70%;
 }
 
 .ranking-player-display {
@@ -45,4 +45,21 @@
 .ranking-player-display img {
   border-radius: 60px;
   width: 30px;
+}
+
+.ranking-header {
+  align-items: center;
+  background-color: hsla(0, 0%, 0%, 0.9);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
+  color: white;
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 30px;
+  padding-block: 40px 20px;
+  width: 100%;
+}
+
+.ranking-logo {
+  margin-left: 12.7%;
+  width: 200px;
 }

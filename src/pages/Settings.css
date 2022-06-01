@@ -7,10 +7,16 @@
   width: 100%;
 }
 
-.settings-logo {
+/* .settings-logo {
   animation: shake infinite 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
   margin-bottom: 80px;
   width: 52%;
+} */
+
+.settings-logo {
+  animation: shake infinite 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  margin-bottom: 80px;
+  width: 32%;
 }
 
 .settings-main-display {
@@ -47,6 +53,13 @@
   display: flex;
   justify-content: space-around;
   margin-top: 20px;
+}
+
+.settings-loading {
+  font-size: xx-large;
+  justify-content: center;
+  margin-block: 80px;
+  text-align: center;
 }
 
 @keyframes shake {
