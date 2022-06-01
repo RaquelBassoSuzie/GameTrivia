@@ -5,11 +5,10 @@
 }
 
 .root {
-
-  /* background-image: url('./image/arcade.jpg');
+  background-image: url('./image/arcade.jpg');
   background-position: center center;
   background-repeat: no-repeat;
-  background-size: cover; */
+  background-size: cover;
   height: 100vh;
   width: 100vw;
 }

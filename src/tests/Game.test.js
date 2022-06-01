@@ -139,7 +139,6 @@ describe('Verifica o comportamento da aplicação na página de Feedback', () =>
     questions.results.forEach(() => {
       const questionElement = screen.getByTestId("question-text");
       expect(questionElement).toBeInTheDocument();
-      // console.log(questionElement.innerHTML);
       const correctAnswerElement = screen.getByTestId("correct-answer");
       const incorrectAnswerElement0 = screen.getByTestId('wrong-answer-0');
       const incorrectAnswerElement1 = screen.getByTestId('wrong-answer-1');
@@ -181,7 +180,6 @@ describe('Verifica o comportamento da aplicação na página de Feedback', () =>
     questions.results.forEach(() => {
       const questionElement = screen.getByTestId("question-text");
       expect(questionElement).toBeInTheDocument();
-      // console.log(questionElement.innerHTML);
       const correctAnswerElement = screen.getByTestId("correct-answer");
       const incorrectAnswerElement0 = screen.getByTestId('wrong-answer-0');
       const incorrectAnswerElement1 = screen.getByTestId('wrong-answer-1');
