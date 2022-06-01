@@ -59,8 +59,10 @@
 }
 
 .ranking-title {
-  /* Aplicação do título no centro no header proveniente do Stack OverFlow
-  link: https://stackoverflow.com/questions/8508275/how-to-center-a-position-absolute-element */
+
+  /* Aplicação do título no centro no header proveniente do Stack OverFlow (link:
+  https://stackoverflow.com/questions/8508275/how-to-center-a-position-absolute-element)
+  */
   left: 0;
   margin-left: auto;
   margin-right: auto;
