@@ -4,6 +4,9 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import store from './redux/store/store';
+// Implementação do BootStrap no React
+// link: https://celke.com.br/artigo/como-integrar-o-react-com-bootstrap
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
   <Provider store={ store }>

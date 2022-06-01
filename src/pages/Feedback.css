@@ -1,0 +1,33 @@
+.feedback-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.feedback-informations {
+  align-items: center;
+  background-color: hsla(180, 100%, 97%, 0.7);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
+  display: flex;
+  font-size: xx-large;
+  justify-content: space-around;
+  padding: 40px;
+  text-align: center;
+  width: 70%;
+}
+
+.feedback-button-section {
+  align-items: center;
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+/* .feedback-image-message {
+  margin-bottom: 30px;
+  width: 40%;
+} */

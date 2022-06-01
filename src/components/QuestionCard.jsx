@@ -1,7 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+// Utilização da biblioteca HE para solucuinar caracteres especiais proveniente de uma thread
+// no Slack da turma 10 tribo A - Fornecida pelo instrutor Moisés Santana
+// link: https://trybecourse.slack.com/archives/C01L16B9XC7/p1624048607142200
+import { decode } from 'he';
 import { updateScoreAndAssertions } from '../redux/actions';
+import './QuestionCard.css';
 
 class QuestionCard extends React.Component {
   handleClickRight = () => {
@@ -30,52 +35,58 @@ class QuestionCard extends React.Component {
     } = this.props;
     const { question, category, answers } = atualQuestion[indexQuestions];
     return (
-      <section>
-        <p>{countTime}</p>
-        <h3 data-testid="question-text">{ question }</h3>
-        <p data-testid="question-category">{ category }</p>
-        <div data-testid="answer-options">
-          { answers.map(({ type, answer, index }) => {
-            if (type) {
+      <section className="question-card-container">
+        <section className="question-card-question-container">
+          <p className="question-card-timer">{countTime}</p>
+          <div className="question-card-quest-and-category-container">
+            <h3 data-testid="question-text">{ decode(question) }</h3>
+            <h5 data-testid="question-category">{ category }</h5>
+          </div>
+          <div data-testid="answer-options" className="question-card-options-container">
+            { answers.map(({ type, answer, index }) => {
+              if (type) {
+                return (
+                  <button
+                    type="button"
+                    key="correct-answer"
+                    data-testid="correct-answer"
+                    style={ style ? (
+                      { border: '3px solid rgb(6, 240, 15)' })
+                      : { color: 'black' } }
+                    disabled={ isDisabled }
+                    onClick={ this.handleClickRight }
+                    className="btn btn-secondary"
+                  >
+                    { decode(answer) }
+                  </button>
+                );
+              }
               return (
                 <button
                   type="button"
-                  key="correct-answer"
-                  data-testid="correct-answer"
-                  style={ style ? (
-                    { border: '3px solid rgb(6, 240, 15)' })
-                    : { color: 'black' } }
+                  key={ `wrong-answer-${index}` }
+                  data-testid={ `wrong-answer-${index}` }
+                  style={ style ? { border: '3px solid red' } : { color: 'black' } }
                   disabled={ isDisabled }
-                  onClick={ this.handleClickRight }
+                  onClick={ this.handleClickWrong }
+                  className="btn btn-secondary"
                 >
-                  { answer }
+                  { decode(answer) }
                 </button>
               );
-            }
-            return (
-              <button
-                type="button"
-                key={ `wrong-answer-${index}` }
-                data-testid={ `wrong-answer-${index}` }
-                style={ style ? { border: '3px solid red' } : { color: 'black' } }
-                disabled={ isDisabled }
-                onClick={ this.handleClickWrong }
-              >
-                { answer }
-              </button>
-            );
-          })}
-        </div>
-        { showNextBtn
-          ? (
-            <button
-              data-testid="btn-next"
-              id="btn-next"
-              type="button"
-              onClick={ nextQuestion }
-            >
-              Next
-            </button>) : ''}
+            })}
+          </div>
+        </section>
+        { showNextBtn && (
+          <button
+            data-testid="btn-next"
+            id="btn-next"
+            type="button"
+            onClick={ nextQuestion }
+            className="btn btn-light"
+          >
+            Next
+          </button>)}
       </section>
     );
   }
